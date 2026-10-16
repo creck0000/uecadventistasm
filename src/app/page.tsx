@@ -14,54 +14,114 @@ export default function Home() {
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {
-    const id = setInterval(() => {
+    const timer = setInterval(() => {
       setCurrent((prev) => (prev + 1) % heroImages.length);
-    }, 7000);
-    return () => clearInterval(id);
-  }, []);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [current]);
+
+  const prevSlide = () => {
+    setCurrent((prev) => (prev - 1 + heroImages.length) % heroImages.length);
+  };
+
+  const nextSlide = () => {
+    setCurrent((prev) => (prev + 1) % heroImages.length);
+  };
 
   return (
     <div>
-      <section className="relative overflow-hidden bg-[--primary]">
+      <section className="relative overflow-hidden bg-[#173344] min-h-[500px] md:min-h-[560px] flex items-center">
+        {/* Dynamic Carousel Background Images */}
         <div className="pointer-events-none absolute inset-0">
           {heroImages.map((img, index) => (
             <Image
               key={index}
               src={img}
-              alt="Fachada del Colegio Adventista Sierra Maestra"
-              className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-[1800ms] ease-out ${
-                index === current ? "opacity-35" : "opacity-0"
-              }`}
-              priority={index === 0}
+              alt={`Fachada e instalaciones del Colegio Adventista Sierra Maestra ${index + 1}`}
+              className="absolute inset-0 h-full w-full object-cover"
+              priority
+              style={{
+                opacity: index === current ? 0.6 : 0,
+                transform: index === current ? "scale(1.05)" : "scale(1)",
+                transition: "opacity 1200ms ease-in-out, transform 5000ms ease-out",
+              }}
             />
           ))}
-          <div className="absolute inset-0 bg-[--primary]/40" />
+          {/* Subtle gradient overlay to guarantee text readability while keeping photos vivid */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#112430]/95 via-[#173344]/80 to-[#173344]/40" />
         </div>
-        <div className="relative z-10 mx-auto max-w-7xl px-4 py-16 md:py-24">
+
+        {/* Hero Content */}
+        <div className="relative z-10 mx-auto w-full max-w-7xl px-4 py-16 md:py-24">
           <Reveal>
             <div className="max-w-2xl">
+              <span className="inline-block rounded-full bg-[#FFE58A]/20 px-3.5 py-1 text-xs font-semibold text-[#FFE58A] mb-3 border border-[#FFE58A]/30">
+                Educación Integral Cristiana
+              </span>
               <h1 className="mb-4 text-4xl md:text-5xl font-extrabold leading-tight text-white" style={{ fontFamily: "var(--font-title)" }}>
                 Colegio Adventista Sierra Maestra
               </h1>
-              <p className="mb-6 max-w-prose text-lg text-white">
+              <p className="mb-6 max-w-prose text-lg text-white/90">
                 Educación con excelencia académica y valores en Maracaibo. Portal institucional y plataforma de gestión escolar.
               </p>
               <div className="flex flex-wrap gap-3">
                 <a
                   href="/admisiones"
-                  className="fx-btn rounded bg-[#FFE58A] px-6 py-3 font-bold text-[#1f2937] ring-1 ring-black/10 shadow"
+                  className="fx-btn rounded bg-[#FFE58A] px-6 py-3 font-bold text-[#1f2937] ring-1 ring-black/10 shadow hover:brightness-95 transition-all"
                 >
                   Admisiones
                 </a>
-                <a href="/registro" className="fx-btn rounded bg-white/10 px-6 py-3 font-semibold text-white backdrop-blur">
+                <a
+                  href="/registro"
+                  className="fx-btn rounded bg-white/10 px-6 py-3 font-semibold text-white backdrop-blur hover:bg-white/20 transition-all border border-white/20"
+                >
                   Registrarme
                 </a>
-                <a href="/login" className="fx-btn rounded bg-white/5 px-6 py-3 text-sm font-semibold text-white backdrop-blur">
+                <a
+                  href="/login"
+                  className="fx-btn rounded bg-white/5 px-6 py-3 text-sm font-semibold text-white backdrop-blur hover:bg-white/15 transition-all border border-white/10"
+                >
                   Ya tengo cuenta
                 </a>
               </div>
             </div>
           </Reveal>
+        </div>
+
+        {/* Carousel Navigation Arrows */}
+        <button
+          onClick={prevSlide}
+          aria-label="Foto anterior"
+          className="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-full bg-black/35 text-white backdrop-blur hover:bg-black/60 transition-all focus:outline-none cursor-pointer"
+        >
+          <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <button
+          onClick={nextSlide}
+          aria-label="Siguiente foto"
+          className="absolute right-3 md:right-6 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-full bg-black/35 text-white backdrop-blur hover:bg-black/60 transition-all focus:outline-none cursor-pointer"
+        >
+          <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+
+        {/* Carousel Indicators / Dots */}
+        <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
+          {heroImages.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => setCurrent(idx)}
+              aria-label={`Ir a foto ${idx + 1}`}
+              className={`h-2.5 rounded-full transition-all duration-300 focus:outline-none cursor-pointer ${
+                idx === current
+                  ? "w-8 bg-[#FFE58A]"
+                  : "w-2.5 bg-white/50 hover:bg-white/80"
+              }`}
+            />
+          ))}
         </div>
       </section>
 
