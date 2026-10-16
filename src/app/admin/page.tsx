@@ -44,8 +44,10 @@ export default function AdminPanel() {
   const [observacion, setObservacion] = useState("");
   const [editandoNotaId, setEditandoNotaId] = useState<string | null>(null);
 
-  // Filtros
+  // Filtros y Búsquedas
   const [filtroUsuario, setFiltroUsuario] = useState("");
+  const [busquedaEstudianteNotas, setBusquedaEstudianteNotas] = useState("");
+  const [busquedaSolicitud, setBusquedaSolicitud] = useState("");
   const [tipoUsuarioVer, setTipoUsuarioVer] = useState<"estudiantes" | "profesores">("estudiantes");
 
   const cargarDatos = async () => {
@@ -232,6 +234,20 @@ export default function AdminPanel() {
 
   const solicitudesPendientes = solicitudes.filter((s) => s.estado === "pendiente");
 
+  const estudiantesFiltradosNotas = estudiantes.filter((est) => {
+    if (!busquedaEstudianteNotas.trim()) return true;
+    const q = busquedaEstudianteNotas.toLowerCase().trim();
+    const nom = `${est.nombres} ${est.apellidos}`.toLowerCase();
+    return est.cedula.toLowerCase().includes(q) || nom.includes(q);
+  });
+
+  const solicitudesFiltradas = solicitudes.filter((s) => {
+    if (!busquedaSolicitud.trim()) return true;
+    const q = busquedaSolicitud.toLowerCase().trim();
+    const nom = `${s.nombres} ${s.apellidos}`.toLowerCase();
+    return s.cedula.toLowerCase().includes(q) || nom.includes(q);
+  });
+
   return (
     <section className="mx-auto max-w-7xl px-4 py-8">
       {/* Encabezado del Panel */}
@@ -410,8 +426,37 @@ export default function AdminPanel() {
               </h2>
 
               <form onSubmit={handleGuardarNota} className="space-y-3.5">
-                <div>
-                  <label className="block text-xs font-bold text-gray-700 mb-1">Seleccionar Estudiante *</label>
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <label className="block text-xs font-bold text-gray-700">Seleccionar Estudiante *</label>
+                    <span className="text-[11px] text-gray-400">
+                      {estudiantesFiltradosNotas.length} de {estudiantes.length} alumnos
+                    </span>
+                  </div>
+
+                  {/* Barra de Búsqueda por Cédula o Nombre */}
+                  <div className="relative">
+                    <Search className="w-3.5 h-3.5 text-gray-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
+                    <input
+                      type="text"
+                      value={busquedaEstudianteNotas}
+                      onChange={(e) => setBusquedaEstudianteNotas(e.target.value)}
+                      placeholder="Buscar por cédula o nombre del alumno..."
+                      className="w-full rounded-lg border border-black/15 bg-white pl-8 pr-8 py-1.5 text-xs focus:border-[--primary] focus:ring-1 focus:ring-[--primary] shadow-2xs"
+                    />
+                    {busquedaEstudianteNotas && (
+                      <button
+                        type="button"
+                        onClick={() => setBusquedaEstudianteNotas("")}
+                        className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer"
+                        title="Borrar búsqueda"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Dropdown de Estudiantes Filtrados */}
                   <select
                     value={selectedEstudianteId}
                     onChange={(e) => {
@@ -421,12 +466,61 @@ export default function AdminPanel() {
                     className="form-select w-full text-xs font-medium"
                     required
                   >
-                    {estudiantes.map((est) => (
-                      <option key={est.id} value={est.id}>
-                        {est.cedula} - {est.nombres} {est.apellidos} ({est.grado})
+                    {estudiantesFiltradosNotas.length === 0 ? (
+                      <option disabled value="">
+                        Sin coincidencias para &quot;{busquedaEstudianteNotas}&quot;
                       </option>
-                    ))}
+                    ) : (
+                      estudiantesFiltradosNotas.map((est) => (
+                        <option key={est.id} value={est.id}>
+                          {est.cedula} — {est.nombres} {est.apellidos} ({est.grado})
+                        </option>
+                      ))
+                    )}
                   </select>
+
+                  {/* Resultados sugeridos cuando el usuario escribe */}
+                  {busquedaEstudianteNotas.trim() && estudiantesFiltradosNotas.length > 0 && (
+                    <div className="max-h-28 overflow-y-auto space-y-1 pt-1">
+                      {estudiantesFiltradosNotas.slice(0, 4).map((est) => (
+                        <button
+                          key={est.id}
+                          type="button"
+                          onClick={() => {
+                            setSelectedEstudianteId(est.id);
+                            setEditandoNotaId(null);
+                          }}
+                          className={`w-full text-left rounded-lg px-2.5 py-1.5 text-xs flex items-center justify-between border transition-all cursor-pointer ${
+                            selectedEstudianteId === est.id
+                              ? "bg-blue-50 border-[--primary] text-[--primary] font-bold"
+                              : "bg-gray-50 border-gray-200 text-gray-700 hover:bg-gray-100"
+                          }`}
+                        >
+                          <span className="truncate">
+                            <span className="font-mono text-[11px] mr-1.5 font-bold">{est.cedula}</span>
+                            {est.nombres} {est.apellidos}
+                          </span>
+                          <span className="text-[10px] text-gray-500 shrink-0 ml-1">{est.grado}</span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Tarjeta de Estudiante Activo */}
+                  {estudianteSeleccionado && (
+                    <div className="rounded-lg bg-blue-50/70 border border-blue-200 p-2.5 text-xs flex items-center justify-between">
+                      <div className="truncate">
+                        <span className="text-[10px] uppercase font-bold text-[--primary] block">Estudiante en Edición</span>
+                        <span className="font-bold text-gray-900 truncate block">
+                          {estudianteSeleccionado.nombres} {estudianteSeleccionado.apellidos}
+                        </span>
+                        <span className="font-mono text-gray-500 text-[11px]">
+                          {estudianteSeleccionado.cedula} • {estudianteSeleccionado.grado} {estudianteSeleccionado.seccion}
+                        </span>
+                      </div>
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                    </div>
+                  )}
                 </div>
 
                 <div>
@@ -617,11 +711,33 @@ export default function AdminPanel() {
                 Alumnos que se han registrado aceptando los términos y esperan aprobación oficial.
               </p>
             </div>
+
+            {/* Buscador de Solicitudes por Cédula o Nombre */}
+            <div className="relative">
+              <Search className="w-3.5 h-3.5 text-gray-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
+              <input
+                type="text"
+                value={busquedaSolicitud}
+                onChange={(e) => setBusquedaSolicitud(e.target.value)}
+                placeholder="Buscar solicitud por cédula o nombre..."
+                className="rounded-lg border border-black/15 bg-white pl-8 pr-8 py-1.5 text-xs w-64 focus:border-[--primary] focus:ring-1 focus:ring-[--primary] shadow-2xs"
+              />
+              {busquedaSolicitud && (
+                <button
+                  type="button"
+                  onClick={() => setBusquedaSolicitud("")}
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  title="Borrar búsqueda"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              )}
+            </div>
           </div>
 
-          {solicitudes.length === 0 ? (
+          {solicitudesFiltradas.length === 0 ? (
             <div className="p-8 text-center text-xs text-gray-500 bg-gray-50 rounded-xl">
-              No hay solicitudes registradas en este momento.
+              {busquedaSolicitud ? `No hay solicitudes que coincidan con "${busquedaSolicitud}".` : "No hay solicitudes registradas en este momento."}
             </div>
           ) : (
             <div className="overflow-x-auto">
@@ -639,7 +755,7 @@ export default function AdminPanel() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
-                  {solicitudes.map((s) => (
+                  {solicitudesFiltradas.map((s) => (
                     <tr key={s.id} className="hover:bg-gray-50/70 transition-colors">
                       <td className="p-2.5 text-gray-500 text-[11px]">{s.fechaSolicitud}</td>
                       <td className="p-2.5 font-bold text-gray-900">{s.nombres} {s.apellidos}</td>
@@ -736,8 +852,8 @@ export default function AdminPanel() {
                 <input
                   value={filtroUsuario}
                   onChange={(e) => setFiltroUsuario(e.target.value)}
-                  placeholder="Buscar por cédula..."
-                  className="rounded-lg border border-black/15 pl-8 pr-3 py-1.5 text-xs w-44"
+                  placeholder="Buscar por cédula o nombre..."
+                  className="rounded-lg border border-black/15 pl-8 pr-3 py-1.5 text-xs w-56"
                 />
               </div>
             </div>

@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const nota = db.agregarNota(estudianteId, {
+    const nota = await db.agregarNota(estudianteId, {
       lapso: lapso as "I" | "II" | "III",
       asignatura: asignatura.trim(),
       calificacion: numCalificacion,
@@ -64,7 +64,7 @@ export async function PUT(req: NextRequest) {
     }
     if (observacion !== undefined) datos.observacion = observacion.trim();
 
-    const ok = db.editarNota(estudianteId, notaId, datos);
+    const ok = await db.editarNota(estudianteId, notaId, datos);
     if (!ok) {
       return NextResponse.json({ ok: false, error: "No se encontró el estudiante o la nota." }, { status: 404 });
     }
@@ -89,7 +89,7 @@ export async function DELETE(req: NextRequest) {
       );
     }
 
-    const ok = db.eliminarNota(estudianteId, notaId);
+    const ok = await db.eliminarNota(estudianteId, notaId);
     if (!ok) {
       return NextResponse.json({ ok: false, error: "No se pudo eliminar la nota o no existe." }, { status: 404 });
     }

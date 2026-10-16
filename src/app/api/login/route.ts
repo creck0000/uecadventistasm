@@ -18,7 +18,8 @@ export async function POST(req: NextRequest) {
     const cleanId = id.trim();
 
     if (role === "admin") {
-      const adminUser = db.getUsuarios().find(
+      const usuarios = await db.getUsuarios();
+      const adminUser = usuarios.find(
         (u) =>
           u.rol === "admin" &&
           (u.cedula.toLowerCase() === cleanId.toLowerCase() ||
@@ -44,9 +45,10 @@ export async function POST(req: NextRequest) {
     }
 
     if (role === "estudiante") {
-      const estudiante = db.getEstudianteByCedula(cleanId);
+      const estudiante = await db.getEstudianteByCedula(cleanId);
       if (!estudiante) {
-        const solicitud = db.getSolicitudes().find(
+        const solicitudes = await db.getSolicitudes();
+        const solicitud = solicitudes.find(
           (s) => s.cedula.toLowerCase() === cleanId.toLowerCase()
         );
 
@@ -101,7 +103,7 @@ export async function POST(req: NextRequest) {
     }
 
     if (role === "profesor") {
-      const profesor = db.getProfesorByCedula(cleanId);
+      const profesor = await db.getProfesorByCedula(cleanId);
       if (!profesor) {
         return NextResponse.json(
           { ok: false, error: "Docente no encontrado con esa cédula en la nómina activa." },

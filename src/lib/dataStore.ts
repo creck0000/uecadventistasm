@@ -1,6 +1,16 @@
 import fs from "fs";
 import path from "path";
 import { Estudiante, Profesor, SolicitudInscripcion, Usuario, Nota } from "./types";
+import { firestore } from "./firebase";
+import {
+  collection,
+  doc,
+  getDocs,
+  getDoc,
+  setDoc,
+  deleteDoc,
+  updateDoc,
+} from "firebase/firestore";
 
 const DB_DIR = path.join(process.cwd(), "src", "data");
 const DB_FILE = path.join(DB_DIR, "db.json");
@@ -13,7 +23,7 @@ export interface DatabaseSchema {
   terminosYCondiciones: string;
 }
 
-const DEFAULT_TERMS = `REGLAMENTO INTERNO Y TÉRMINOS DE INSCRIPCIÓN - COLEGIO ADVENTISTA SIERRA MAESTRA (CASM)
+export const DEFAULT_TERMS = `REGLAMENTO INTERNO Y TÉRMINOS DE INSCRIPCIÓN - COLEGIO ADVENTISTA SIERRA MAESTRA (CASM)
 
 1. De la Misión Institucional:
 El Colegio Adventista Sierra Maestra tiene como misión ofrecer una educación cristiana e integral, fortaleciendo principios espirituales, morales, cívicos y de excelencia académica.
@@ -144,44 +154,144 @@ const DEFAULT_DB: DatabaseSchema = {
   terminosYCondiciones: DEFAULT_TERMS,
 };
 
-function ensureDbExists(): DatabaseSchema {
-  if (!fs.existsSync(DB_DIR)) {
-    fs.mkdirSync(DB_DIR, { recursive: true });
-  }
-
-  if (!fs.existsSync(DB_FILE)) {
-    fs.writeFileSync(DB_FILE, JSON.stringify(DEFAULT_DB, null, 2), "utf-8");
-    return DEFAULT_DB;
-  }
-
+function readLocalDb(): DatabaseSchema {
   try {
-    const raw = fs.readFileSync(DB_FILE, "utf-8");
-    return JSON.parse(raw) as DatabaseSchema;
+    if (fs.existsSync(DB_FILE)) {
+      const raw = fs.readFileSync(DB_FILE, "utf-8");
+      return JSON.parse(raw) as DatabaseSchema;
+    }
   } catch {
-    fs.writeFileSync(DB_FILE, JSON.stringify(DEFAULT_DB, null, 2), "utf-8");
-    return DEFAULT_DB;
+    // Ignorar si fs falla (ej: entorno serverless de solo lectura)
+  }
+  return DEFAULT_DB;
+}
+
+function safeWriteLocalDb(data: DatabaseSchema) {
+  try {
+    if (!fs.existsSync(DB_DIR)) {
+      fs.mkdirSync(DB_DIR, { recursive: true });
+    }
+    fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2), "utf-8");
+  } catch {
+    // En Vercel / serverless el sistema de archivos puede ser solo lectura; Firestore es la fuente de verdad.
   }
 }
 
-function writeDb(data: DatabaseSchema) {
-  if (!fs.existsSync(DB_DIR)) {
-    fs.mkdirSync(DB_DIR, { recursive: true });
-  }
-  fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2), "utf-8");
-}
+// In-memory cache para acelerar lecturas y fallback
+let memoryCache: DatabaseSchema = readLocalDb();
 
 export const db = {
-  get(): DatabaseSchema {
-    return ensureDbExists();
+  // === ESTUDIANTES ===
+  async getEstudiantes(): Promise<Estudiante[]> {
+    try {
+      const snap = await getDocs(collection(firestore, "estudiantes"));
+      if (!snap.empty) {
+        const list = snap.docs.map((d) => d.data() as Estudiante);
+        memoryCache.estudiantes = list;
+        return list;
+      }
+    } catch (err) {
+      console.warn("Firestore offline o error al leer estudiantes, usando caché local:", err);
+    }
+    return memoryCache.estudiantes || [];
+  },
+
+  async getEstudianteByCedula(cedula: string): Promise<Estudiante | undefined> {
+    const clean = cedula.trim().toLowerCase();
+    try {
+      const snap = await getDocs(collection(firestore, "estudiantes"));
+      if (!snap.empty) {
+        const found = snap.docs
+          .map((d) => d.data() as Estudiante)
+          .find((e) => e.cedula.toLowerCase() === clean);
+        if (found) return found;
+      }
+    } catch {
+      // fallback
+    }
+    return (memoryCache.estudiantes || []).find((e) => e.cedula.toLowerCase() === clean);
+  },
+
+  // === PROFESORES ===
+  async getProfesores(): Promise<Profesor[]> {
+    try {
+      const snap = await getDocs(collection(firestore, "profesores"));
+      if (!snap.empty) {
+        const list = snap.docs.map((d) => d.data() as Profesor);
+        memoryCache.profesores = list;
+        return list;
+      }
+    } catch (err) {
+      console.warn("Firestore error al leer profesores:", err);
+    }
+    return memoryCache.profesores || [];
+  },
+
+  async getProfesorByCedula(cedula: string): Promise<Profesor | undefined> {
+    const clean = cedula.trim().toLowerCase();
+    try {
+      const snap = await getDocs(collection(firestore, "profesores"));
+      if (!snap.empty) {
+        const found = snap.docs
+          .map((d) => d.data() as Profesor)
+          .find((p) => p.cedula.toLowerCase() === clean);
+        if (found) return found;
+      }
+    } catch {
+      // fallback
+    }
+    return (memoryCache.profesores || []).find((p) => p.cedula.toLowerCase() === clean);
+  },
+
+  // === USUARIOS ===
+  async getUsuarios(): Promise<Usuario[]> {
+    try {
+      const snap = await getDocs(collection(firestore, "usuarios"));
+      if (!snap.empty) {
+        const list = snap.docs.map((d) => d.data() as Usuario);
+        memoryCache.usuarios = list;
+        return list;
+      }
+    } catch (err) {
+      console.warn("Firestore error al leer usuarios:", err);
+    }
+    return memoryCache.usuarios || [];
+  },
+
+  async getUsuarioByCedula(cedula: string): Promise<Usuario | undefined> {
+    const clean = cedula.trim().toLowerCase();
+    try {
+      const snap = await getDocs(collection(firestore, "usuarios"));
+      if (!snap.empty) {
+        const found = snap.docs
+          .map((d) => d.data() as Usuario)
+          .find((u) => u.cedula.toLowerCase() === clean);
+        if (found) return found;
+      }
+    } catch {
+      // fallback
+    }
+    return (memoryCache.usuarios || []).find((u) => u.cedula.toLowerCase() === clean);
   },
 
   // === SOLICITUDES ===
-  getSolicitudes(): SolicitudInscripcion[] {
-    return this.get().solicitudes;
+  async getSolicitudes(): Promise<SolicitudInscripcion[]> {
+    try {
+      const snap = await getDocs(collection(firestore, "solicitudes"));
+      if (!snap.empty) {
+        const list = snap.docs.map((d) => d.data() as SolicitudInscripcion);
+        memoryCache.solicitudes = list;
+        return list;
+      }
+    } catch (err) {
+      console.warn("Firestore error al leer solicitudes:", err);
+    }
+    return memoryCache.solicitudes || [];
   },
 
-  crearSolicitud(data: Omit<SolicitudInscripcion, "id" | "fechaSolicitud" | "estado">): SolicitudInscripcion {
-    const database = this.get();
+  async crearSolicitud(
+    data: Omit<SolicitudInscripcion, "id" | "fechaSolicitud" | "estado">
+  ): Promise<SolicitudInscripcion> {
     const id = `SOL-${Date.now()}`;
     const fechaSolicitud = new Date().toISOString().split("T")[0];
 
@@ -192,87 +302,146 @@ export const db = {
       estado: "pendiente",
     };
 
-    database.solicitudes.unshift(nuevaSolicitud);
-    writeDb(database);
+    // 1. Guardar en Firestore
+    try {
+      await setDoc(doc(firestore, "solicitudes", id), nuevaSolicitud);
+    } catch (err) {
+      console.error("Error al guardar solicitud en Firestore:", err);
+    }
+
+    // 2. Actualizar caché local
+    if (!memoryCache.solicitudes) memoryCache.solicitudes = [];
+    memoryCache.solicitudes.unshift(nuevaSolicitud);
+    safeWriteLocalDb(memoryCache);
+
     return nuevaSolicitud;
   },
 
-  aprobarSolicitud(solicitudId: string): boolean {
-    const database = this.get();
-    const index = database.solicitudes.findIndex((s) => s.id === solicitudId);
-    if (index === -1) return false;
+  async aprobarSolicitud(solicitudId: string): Promise<boolean> {
+    const solicitudes = await this.getSolicitudes();
+    const sol = solicitudes.find((s) => s.id === solicitudId);
+    if (!sol) return false;
 
-    const sol = database.solicitudes[index];
     sol.estado = "activo";
 
-    // Si ya existe en estudiantes, actualizar
-    const estIndex = database.estudiantes.findIndex((e) => e.cedula === sol.cedula);
-    if (estIndex >= 0) {
-      database.estudiantes[estIndex].estadoInscripcion = "activo";
-    } else {
-      // Crear estudiante oficial
-      const nuevoEstudiante: Estudiante = {
-        id: `E-${Date.now().toString().slice(-4)}`,
-        nombres: sol.nombres,
-        apellidos: sol.apellidos,
-        cedula: sol.cedula,
-        email: sol.email,
-        fechaNacimiento: "2010-01-01",
-        grado: sol.grado,
-        seccion: "A",
-        turno: sol.turno,
-        estadoInscripcion: "activo",
-        nombreRepresentante: sol.nombreRepresentante,
-        telefonoRepresentante: sol.telefonoRepresentante,
-        notas: [],
-        asistencia: [],
-        fechaRegistro: new Date().toISOString().split("T")[0],
-      };
-      database.estudiantes.push(nuevoEstudiante);
+    // 1. Actualizar solicitud en Firestore
+    try {
+      await updateDoc(doc(firestore, "solicitudes", sol.id), { estado: "activo" });
+    } catch {
+      await setDoc(doc(firestore, "solicitudes", sol.id), sol, { merge: true });
     }
 
-    // Asegurar usuario para login
-    const uIndex = database.usuarios.findIndex((u) => u.cedula === sol.cedula);
-    if (uIndex >= 0) {
-      database.usuarios[uIndex].estado = "activo";
-    } else {
-      database.usuarios.push({
-        id: `U-${Date.now().toString().slice(-4)}`,
-        cedula: sol.cedula,
-        email: sol.email,
-        rol: "estudiante",
-        estado: "activo",
-        fechaRegistro: new Date().toISOString().split("T")[0],
-      });
+    // 2. Crear o actualizar Estudiante en Firestore
+    const estudiantes = await this.getEstudiantes();
+    const estExistente = estudiantes.find((e) => e.cedula === sol.cedula);
+
+    const estudianteOficial: Estudiante = estExistente
+      ? { ...estExistente, estadoInscripcion: "activo" }
+      : {
+          id: `E-${Date.now().toString().slice(-4)}`,
+          nombres: sol.nombres,
+          apellidos: sol.apellidos,
+          cedula: sol.cedula,
+          email: sol.email,
+          fechaNacimiento: "2010-01-01",
+          grado: sol.grado,
+          seccion: "A",
+          turno: sol.turno,
+          estadoInscripcion: "activo",
+          nombreRepresentante: sol.nombreRepresentante,
+          telefonoRepresentante: sol.telefonoRepresentante,
+          notas: [],
+          asistencia: [],
+          fechaRegistro: new Date().toISOString().split("T")[0],
+        };
+
+    try {
+      await setDoc(doc(firestore, "estudiantes", sol.cedula), estudianteOficial, { merge: true });
+    } catch (err) {
+      console.error("Error al guardar estudiante en Firestore:", err);
     }
 
-    writeDb(database);
+    // 3. Crear o actualizar Usuario para Login
+    const usuarioOficial: Usuario = {
+      id: `U-${Date.now().toString().slice(-4)}`,
+      cedula: sol.cedula,
+      email: sol.email,
+      rol: "estudiante",
+      estado: "activo",
+      fechaRegistro: new Date().toISOString().split("T")[0],
+    };
+
+    try {
+      await setDoc(doc(firestore, "usuarios", sol.cedula), usuarioOficial, { merge: true });
+    } catch (err) {
+      console.error("Error al guardar usuario en Firestore:", err);
+    }
+
+    // 4. Actualizar memoria y local
+    const sIdx = memoryCache.solicitudes.findIndex((s) => s.id === solicitudId);
+    if (sIdx >= 0) memoryCache.solicitudes[sIdx].estado = "activo";
+
+    const eIdx = memoryCache.estudiantes.findIndex((e) => e.cedula === sol.cedula);
+    if (eIdx >= 0) {
+      memoryCache.estudiantes[eIdx] = estudianteOficial;
+    } else {
+      memoryCache.estudiantes.push(estudianteOficial);
+    }
+
+    const uIdx = memoryCache.usuarios.findIndex((u) => u.cedula === sol.cedula);
+    if (uIdx >= 0) {
+      memoryCache.usuarios[uIdx].estado = "activo";
+    } else {
+      memoryCache.usuarios.push(usuarioOficial);
+    }
+
+    safeWriteLocalDb(memoryCache);
     return true;
   },
 
-  rechazarSolicitud(solicitudId: string, motivo?: string): boolean {
-    const database = this.get();
-    const index = database.solicitudes.findIndex((s) => s.id === solicitudId);
-    if (index === -1) return false;
+  async rechazarSolicitud(solicitudId: string, motivo?: string): Promise<boolean> {
+    const solicitudes = await this.getSolicitudes();
+    const sol = solicitudes.find((s) => s.id === solicitudId);
+    if (!sol) return false;
 
-    database.solicitudes[index].estado = "rechazado";
-    if (motivo) {
-      database.solicitudes[index].motivoRechazo = motivo;
+    sol.estado = "rechazado";
+    if (motivo) sol.motivoRechazo = motivo;
+
+    try {
+      await setDoc(
+        doc(firestore, "solicitudes", sol.id),
+        { estado: "rechazado", motivoRechazo: motivo || "No cumple con los requisitos del plantel." },
+        { merge: true }
+      );
+      await setDoc(
+        doc(firestore, "usuarios", sol.cedula),
+        { estado: "rechazado" },
+        { merge: true }
+      );
+    } catch (err) {
+      console.error("Error al rechazar en Firestore:", err);
     }
 
-    const uIndex = database.usuarios.findIndex((u) => u.cedula === database.solicitudes[index].cedula);
-    if (uIndex >= 0) {
-      database.usuarios[uIndex].estado = "rechazado";
+    // Actualizar local
+    const sIdx = memoryCache.solicitudes.findIndex((s) => s.id === solicitudId);
+    if (sIdx >= 0) {
+      memoryCache.solicitudes[sIdx].estado = "rechazado";
+      if (motivo) memoryCache.solicitudes[sIdx].motivoRechazo = motivo;
     }
+    const uIdx = memoryCache.usuarios.findIndex((u) => u.cedula === sol.cedula);
+    if (uIdx >= 0) memoryCache.usuarios[uIdx].estado = "rechazado";
 
-    writeDb(database);
+    safeWriteLocalDb(memoryCache);
     return true;
   },
 
-  // === NOTAS (SOLO ADMINISTRADOR) ===
-  agregarNota(estudianteId: string, nota: Omit<Nota, "id" | "fechaRegistro">): Nota | null {
-    const database = this.get();
-    const estudiante = database.estudiantes.find((e) => e.id === estudianteId || e.cedula === estudianteId);
+  // === NOTAS (GESTIÓN EXCLUSIVA ADMINISTRADOR) ===
+  async agregarNota(
+    estudianteId: string,
+    nota: Omit<Nota, "id" | "fechaRegistro">
+  ): Promise<Nota | null> {
+    const estudiantes = await this.getEstudiantes();
+    const estudiante = estudiantes.find((e) => e.id === estudianteId || e.cedula === estudianteId);
     if (!estudiante) return null;
 
     const nuevaNota: Nota = {
@@ -283,13 +452,33 @@ export const db = {
 
     if (!estudiante.notas) estudiante.notas = [];
     estudiante.notas.push(nuevaNota);
-    writeDb(database);
+
+    try {
+      await setDoc(
+        doc(firestore, "estudiantes", estudiante.cedula),
+        { notas: estudiante.notas },
+        { merge: true }
+      );
+    } catch (err) {
+      console.error("Error al guardar nota en Firestore:", err);
+    }
+
+    const idx = memoryCache.estudiantes.findIndex(
+      (e) => e.id === estudianteId || e.cedula === estudianteId
+    );
+    if (idx >= 0) memoryCache.estudiantes[idx] = estudiante;
+    safeWriteLocalDb(memoryCache);
+
     return nuevaNota;
   },
 
-  editarNota(estudianteId: string, notaId: string, datos: Partial<Omit<Nota, "id" | "fechaRegistro">>): boolean {
-    const database = this.get();
-    const estudiante = database.estudiantes.find((e) => e.id === estudianteId || e.cedula === estudianteId);
+  async editarNota(
+    estudianteId: string,
+    notaId: string,
+    datos: Partial<Omit<Nota, "id" | "fechaRegistro">>
+  ): Promise<boolean> {
+    const estudiantes = await this.getEstudiantes();
+    const estudiante = estudiantes.find((e) => e.id === estudianteId || e.cedula === estudianteId);
     if (!estudiante || !estudiante.notas) return false;
 
     const nIndex = estudiante.notas.findIndex((n) => n.id === notaId);
@@ -300,80 +489,110 @@ export const db = {
       ...datos,
     };
 
-    writeDb(database);
+    try {
+      await setDoc(
+        doc(firestore, "estudiantes", estudiante.cedula),
+        { notas: estudiante.notas },
+        { merge: true }
+      );
+    } catch (err) {
+      console.error("Error al editar nota en Firestore:", err);
+    }
+
+    const idx = memoryCache.estudiantes.findIndex(
+      (e) => e.id === estudianteId || e.cedula === estudianteId
+    );
+    if (idx >= 0) memoryCache.estudiantes[idx] = estudiante;
+    safeWriteLocalDb(memoryCache);
+
     return true;
   },
 
-  eliminarNota(estudianteId: string, notaId: string): boolean {
-    const database = this.get();
-    const estudiante = database.estudiantes.find((e) => e.id === estudianteId || e.cedula === estudianteId);
+  async eliminarNota(estudianteId: string, notaId: string): Promise<boolean> {
+    const estudiantes = await this.getEstudiantes();
+    const estudiante = estudiantes.find((e) => e.id === estudianteId || e.cedula === estudianteId);
     if (!estudiante || !estudiante.notas) return false;
 
     const inicialLen = estudiante.notas.length;
     estudiante.notas = estudiante.notas.filter((n) => n.id !== notaId);
 
-    if (estudiante.notas.length !== inicialLen) {
-      writeDb(database);
-      return true;
+    if (estudiante.notas.length === inicialLen) return false;
+
+    try {
+      await setDoc(
+        doc(firestore, "estudiantes", estudiante.cedula),
+        { notas: estudiante.notas },
+        { merge: true }
+      );
+    } catch (err) {
+      console.error("Error al eliminar nota en Firestore:", err);
     }
-    return false;
+
+    const idx = memoryCache.estudiantes.findIndex(
+      (e) => e.id === estudianteId || e.cedula === estudianteId
+    );
+    if (idx >= 0) memoryCache.estudiantes[idx] = estudiante;
+    safeWriteLocalDb(memoryCache);
+
+    return true;
   },
 
-  // === GESTIÓN DE CUENTAS (ELIMINAR / BUSCAR) ===
-  eliminarCuenta(tipo: "estudiante" | "profesor", id: string): boolean {
-    const database = this.get();
+  // === GESTIÓN DE CUENTAS (ELIMINAR) ===
+  async eliminarCuenta(tipo: "estudiante" | "profesor", id: string): Promise<boolean> {
     let cedulaEliminada = "";
 
     if (tipo === "estudiante") {
-      const est = database.estudiantes.find((e) => e.id === id || e.cedula === id);
+      const estudiantes = await this.getEstudiantes();
+      const est = estudiantes.find((e) => e.id === id || e.cedula === id);
       if (est) {
         cedulaEliminada = est.cedula;
-        database.estudiantes = database.estudiantes.filter((e) => e.id !== id && e.cedula !== id);
+        try {
+          await deleteDoc(doc(firestore, "estudiantes", est.cedula));
+        } catch {}
       }
     } else {
-      const prof = database.profesores.find((p) => p.id === id || p.cedula === id);
+      const profesores = await this.getProfesores();
+      const prof = profesores.find((p) => p.id === id || p.cedula === id);
       if (prof) {
         cedulaEliminada = prof.cedula;
-        database.profesores = database.profesores.filter((p) => p.id !== id && p.cedula !== id);
+        try {
+          await deleteDoc(doc(firestore, "profesores", prof.cedula));
+        } catch {}
       }
     }
 
     if (cedulaEliminada) {
-      database.usuarios = database.usuarios.filter((u) => u.cedula !== cedulaEliminada);
-      database.solicitudes = database.solicitudes.filter((s) => s.cedula !== cedulaEliminada);
-      writeDb(database);
+      try {
+        await deleteDoc(doc(firestore, "usuarios", cedulaEliminada));
+      } catch {}
+
+      // Actualizar memoria y local
+      if (tipo === "estudiante") {
+        memoryCache.estudiantes = memoryCache.estudiantes.filter(
+          (e) => e.cedula !== cedulaEliminada && e.id !== id
+        );
+      } else {
+        memoryCache.profesores = memoryCache.profesores.filter(
+          (p) => p.cedula !== cedulaEliminada && p.id !== id
+        );
+      }
+      memoryCache.usuarios = memoryCache.usuarios.filter((u) => u.cedula !== cedulaEliminada);
+      memoryCache.solicitudes = memoryCache.solicitudes.filter((s) => s.cedula !== cedulaEliminada);
+      safeWriteLocalDb(memoryCache);
+
       return true;
     }
 
     return false;
   },
 
-  // === CONSULTAS ===
-  getEstudiantes(): Estudiante[] {
-    return this.get().estudiantes;
-  },
-
-  getEstudianteByCedula(cedula: string): Estudiante | undefined {
-    return this.get().estudiantes.find((e) => e.cedula.toLowerCase() === cedula.toLowerCase());
-  },
-
-  getProfesores(): Profesor[] {
-    return this.get().profesores;
-  },
-
-  getProfesorByCedula(cedula: string): Profesor | undefined {
-    return this.get().profesores.find((p) => p.cedula.toLowerCase() === cedula.toLowerCase());
-  },
-
-  getUsuarios(): Usuario[] {
-    return this.get().usuarios;
-  },
-
-  getUsuarioByCedula(cedula: string): Usuario | undefined {
-    return this.get().usuarios.find((u) => u.cedula.toLowerCase() === cedula.toLowerCase());
-  },
-
-  getTerminos(): string {
-    return this.get().terminosYCondiciones;
+  async getTerminos(): Promise<string> {
+    try {
+      const snap = await getDoc(doc(firestore, "config", "general"));
+      if (snap.exists() && snap.data().terminosYCondiciones) {
+        return snap.data().terminosYCondiciones;
+      }
+    } catch {}
+    return memoryCache.terminosYCondiciones || DEFAULT_TERMS;
   },
 };

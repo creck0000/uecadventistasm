@@ -3,10 +3,12 @@ import { db } from "@/lib/dataStore";
 
 export async function GET() {
   try {
-    const estudiantes = db.getEstudiantes();
-    const profesores = db.getProfesores();
-    const usuarios = db.getUsuarios();
-    const solicitudes = db.getSolicitudes();
+    const [estudiantes, profesores, usuarios, solicitudes] = await Promise.all([
+      db.getEstudiantes(),
+      db.getProfesores(),
+      db.getUsuarios(),
+      db.getSolicitudes(),
+    ]);
 
     return NextResponse.json({
       ok: true,
@@ -35,7 +37,7 @@ export async function DELETE(req: NextRequest) {
       return NextResponse.json({ ok: false, error: "Tipo de usuario y ID son requeridos" }, { status: 400 });
     }
 
-    const ok = db.eliminarCuenta(tipo, id);
+    const ok = await db.eliminarCuenta(tipo, id);
     if (!ok) {
       return NextResponse.json({ ok: false, error: "Usuario no encontrado" }, { status: 404 });
     }

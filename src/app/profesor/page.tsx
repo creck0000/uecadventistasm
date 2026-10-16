@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { db } from "@/lib/dataStore";
+import NominaProfesor from "@/components/profesor/NominaProfesor";
 import {
   User,
   BookOpen,
@@ -15,9 +16,9 @@ export default async function ProfesorPanel() {
   const c = await cookies();
   const id = c.get("userId")?.value ?? "";
   
-  const profesores = db.getProfesores();
+  const profesores = await db.getProfesores();
   const prof = profesores.find((p) => p.cedula.toLowerCase() === id.toLowerCase()) || profesores[0];
-  const estudiantes = db.getEstudiantes();
+  const estudiantes = await db.getEstudiantes();
 
   if (!prof) {
     return (
@@ -114,55 +115,16 @@ export default async function ProfesorPanel() {
         </div>
       </div>
 
-      {/* Listado de Alumnos */}
+      {/* Listado de Alumnos con Búsqueda Reactiva */}
       <div className="rounded-2xl border border-black/10 bg-white p-6 shadow-sm">
         <div className="mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between border-b pb-3 gap-2">
           <div>
             <h2 className="text-base font-bold text-gray-900">Nómina de Alumnos en tus Asignaturas</h2>
             <p className="text-xs text-gray-500">Estudiantes regulares pertenecientes a tus secciones asignadas.</p>
           </div>
-          <div className="rounded-lg bg-gray-50 px-3 py-1 text-xs text-gray-600 border">
-            Total alumnos: <strong>{listado.length}</strong>
-          </div>
         </div>
 
-        {listado.length === 0 ? (
-          <div className="p-8 text-center text-xs text-gray-500 bg-gray-50 rounded-xl">
-            No hay alumnos inscritos en tus secciones en este momento.
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-xs">
-              <thead>
-                <tr className="bg-gray-100 text-gray-700 uppercase font-bold text-[10px]">
-                  <th className="p-2.5 text-left rounded-l">Cédula</th>
-                  <th className="p-2.5 text-left">Nombres y Apellidos</th>
-                  <th className="p-2.5 text-left">Grado y Sección</th>
-                  <th className="p-2.5 text-left">Turno</th>
-                  <th className="p-2.5 text-center">Notas Asentadas</th>
-                  <th className="p-2.5 text-right rounded-r">Representante</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100">
-                {listado.map((e) => (
-                  <tr key={e.id} className="hover:bg-gray-50 transition-colors">
-                    <td className="p-2.5 font-mono font-bold text-[--primary]">{e.cedula}</td>
-                    <td className="p-2.5 font-bold text-gray-900">{e.nombres} {e.apellidos}</td>
-                    <td className="p-2.5 text-gray-600">{e.grado} - Sec. {e.seccion}</td>
-                    <td className="p-2.5 text-gray-500">{e.turno}</td>
-                    <td className="p-2.5 text-center font-bold text-[--primary]">
-                      {e.notas ? e.notas.length : 0} registradas
-                    </td>
-                    <td className="p-2.5 text-right text-gray-600">
-                      <div>{e.nombreRepresentante || "—"}</div>
-                      <div className="text-[10px] text-gray-400">{e.telefonoRepresentante || ""}</div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+        <NominaProfesor alumnos={listado} />
       </div>
 
       <div className="mt-8 text-xs text-gray-500 flex items-center justify-between border-t pt-4">

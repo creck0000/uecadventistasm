@@ -31,84 +31,118 @@
       "rol": "estudiante",
       "estado": "activo",
       "fechaRegistro": "2026-10-16"
+    },
+    {
+      "id": "U-5353",
+      "cedula": "V-30123456",
+      "email": "gabriel.torres@casm.edu",
+      "rol": "estudiante",
+      "estado": "activo",
+      "fechaRegistro": "2026-10-16"
     }
   ],
   "estudiantes": [
     {
-      "id": "E-001",
-      "nombres": "María",
-      "apellidos": "González",
-      "cedula": "V-12345678",
-      "email": "maria.gonzalez@casm.edu",
-      "fechaNacimiento": "2008-05-12",
-      "grado": "3° Año",
       "seccion": "B",
-      "turno": "Mañana",
-      "estadoInscripcion": "activo",
       "nombreRepresentante": "Carmen González",
-      "telefonoRepresentante": "+58 414-1234567",
-      "fechaRegistro": "2026-01-15",
-      "notas": [
-        {
-          "id": "N-001",
-          "lapso": "I",
-          "asignatura": "Matemática",
-          "calificacion": 18,
-          "observacion": "Excelente desempeño y puntualidad en entrega de proyectos.",
-          "fechaRegistro": "2026-02-10"
-        },
-        {
-          "id": "N-002",
-          "lapso": "I",
-          "asignatura": "Castellano y Literatura",
-          "calificacion": 17,
-          "observacion": "Buena redacción y comprensión lectora.",
-          "fechaRegistro": "2026-02-11"
-        },
-        {
-          "id": "N-003",
-          "lapso": "II",
-          "asignatura": "Historia de Venezuela",
-          "calificacion": 19,
-          "observacion": "Destacada participación en discusiones temáticas.",
-          "fechaRegistro": "2026-03-01"
-        }
-      ],
+      "estadoInscripcion": "activo",
+      "grado": "3° Año",
       "asistencia": [
         {
           "fecha": "2026-02-01",
           "presente": true
         },
         {
-          "fecha": "2026-02-02",
-          "presente": true
+          "presente": true,
+          "fecha": "2026-02-02"
         },
         {
-          "fecha": "2026-02-03",
-          "presente": false
+          "presente": false,
+          "fecha": "2026-02-03"
         },
         {
-          "fecha": "2026-02-04",
-          "presente": true
+          "presente": true,
+          "fecha": "2026-02-04"
         }
-      ]
+      ],
+      "fechaRegistro": "2026-01-15",
+      "telefonoRepresentante": "+58 414-1234567",
+      "notas": [
+        {
+          "asignatura": "Matemática",
+          "calificacion": 18,
+          "fechaRegistro": "2026-02-10",
+          "observacion": "Excelente desempeño y puntualidad en entrega de proyectos.",
+          "lapso": "I",
+          "id": "N-001"
+        },
+        {
+          "asignatura": "Castellano y Literatura",
+          "observacion": "Buena redacción y comprensión lectora.",
+          "lapso": "I",
+          "calificacion": 17,
+          "id": "N-002",
+          "fechaRegistro": "2026-02-11"
+        },
+        {
+          "asignatura": "Historia de Venezuela",
+          "id": "N-003",
+          "calificacion": 19,
+          "lapso": "II",
+          "observacion": "Destacada participación en discusiones temáticas.",
+          "fechaRegistro": "2026-03-01"
+        }
+      ],
+      "email": "maria.gonzalez@casm.edu",
+      "cedula": "V-12345678",
+      "id": "E-001",
+      "turno": "Mañana",
+      "apellidos": "González",
+      "fechaNacimiento": "2008-05-12",
+      "nombres": "María"
     },
     {
-      "id": "E-1308",
-      "nombres": "Samuel David",
-      "apellidos": "Rojas Blanco",
-      "cedula": "V-29888999",
+      "notas": [],
       "email": "samuel.rojas@gmail.com",
-      "fechaNacimiento": "2010-01-01",
-      "grado": "4� A�o",
+      "fechaRegistro": "2026-10-16",
       "seccion": "A",
+      "cedula": "V-29888999",
       "turno": "Ma�ana",
+      "fechaNacimiento": "2010-01-01",
+      "apellidos": "Rojas Blanco",
       "estadoInscripcion": "activo",
       "nombreRepresentante": "Marcos Rojas",
       "telefonoRepresentante": "+58 414-9988776",
-      "notas": [],
+      "id": "E-1308",
       "asistencia": [],
-      "fechaRegistro": "2026-10-16"
+      "grado": "4� A�o",
+      "nombres": "Samuel David"
+    },
+    {
+      "turno": "Mañana",
+      "id": "E-4536",
+      "fechaNacimiento": "2010-01-01",
+      "nombres": "Gabriel Alejandro",
+      "notas": [
+        {
+          "lapso": "I",
+          "asignatura": "Matemática",
+          "calificacion": 19,
+          "observacion": "Excelente rendimiento en pruebas iniciales",
+          "id": "N-138636",
+          "fechaRegistro": "2026-10-16"
+        }
+      ],
+      "email": "gabriel.torres@casm.edu",
+      "apellidos": "Torres Morales",
+      "telefonoRepresentante": "+58 412-5556677",
+      "nombreRepresentante": "Patricia Morales",
+      "grado": "4° Año",
+      "seccion": "A",
+      "estadoInscripcion": "activo",
+      "fechaRegistro": "2026-10-16",
+      "asistencia": [],
+      "cedula": "V-30123456"
     }
   ],
   "profesores": [
@@ -138,34 +172,49 @@
   ],
   "solicitudes": [
     {
-      "estudianteId": "E-TEMP-8168",
-      "nombres": "Samuel David",
+      "fechaSolicitud": "2026-03-10",
+      "email": "andres.mendoza@gmail.com",
+      "terminosAceptados": true,
+      "nombres": "Andrés David",
+      "cedula": "V-31456789",
+      "telefonoRepresentante": "+58 424-9876543",
+      "id": "SOL-101",
+      "turno": "Mañana",
+      "estudianteId": "E-TEMP-101",
+      "apellidos": "Mendoza Silva",
+      "nombreRepresentante": "Elena Silva",
+      "grado": "1° Año",
+      "estado": "pendiente"
+    },
+    {
       "apellidos": "Rojas Blanco",
-      "cedula": "V-29888999",
       "email": "samuel.rojas@gmail.com",
-      "grado": "4� A�o",
+      "nombres": "Samuel David",
+      "id": "SOL-1792126658168",
       "turno": "Ma�ana",
       "nombreRepresentante": "Marcos Rojas",
-      "telefonoRepresentante": "+58 414-9988776",
+      "cedula": "V-29888999",
       "terminosAceptados": true,
-      "id": "SOL-1792126658168",
+      "estudianteId": "E-TEMP-8168",
+      "grado": "4� A�o",
       "fechaSolicitud": "2026-10-16",
+      "telefonoRepresentante": "+58 414-9988776",
       "estado": "activo"
     },
     {
-      "id": "SOL-101",
-      "estudianteId": "E-TEMP-101",
-      "nombres": "Andrés David",
-      "apellidos": "Mendoza Silva",
-      "cedula": "V-31456789",
-      "email": "andres.mendoza@gmail.com",
-      "grado": "1° Año",
-      "turno": "Mañana",
-      "nombreRepresentante": "Elena Silva",
-      "telefonoRepresentante": "+58 424-9876543",
+      "grado": "4° Año",
+      "id": "SOL-1792129648050",
+      "estudianteId": "E-TEMP-8050",
+      "cedula": "V-30123456",
+      "apellidos": "Torres Morales",
+      "telefonoRepresentante": "+58 412-5556677",
+      "email": "gabriel.torres@casm.edu",
       "terminosAceptados": true,
-      "fechaSolicitud": "2026-03-10",
-      "estado": "pendiente"
+      "nombreRepresentante": "Patricia Morales",
+      "turno": "Mañana",
+      "fechaSolicitud": "2026-10-16",
+      "estado": "activo",
+      "nombres": "Gabriel Alejandro"
     }
   ],
   "terminosYCondiciones": "REGLAMENTO INTERNO Y TÉRMINOS DE INSCRIPCIÓN - COLEGIO ADVENTISTA SIERRA MAESTRA (CASM)\n\n1. De la Misión Institucional:\nEl Colegio Adventista Sierra Maestra tiene como misión ofrecer una educación cristiana e integral, fortaleciendo principios espirituales, morales, cívicos y de excelencia académica.\n\n2. Deberes del Representante y Estudiante:\na) Asistir puntualmente a las actividades académicas programadas.\nb) Portar el uniforme reglamentario con pulcritud y decoro.\nc) Mantener una conducta respetuosa hacia docentes, personal administrativo y compañeros.\nd) Cumplir con los plazos de entrega de evaluaciones y actividades formativas.\n\n3. Del Proceso de Admisión e Inscripción:\na) El envío de la solicitud de inscripción no garantiza el cupo de forma automática.\nb) La Dirección y Administración del plantel revisarán la documentación consignada y notificarán la aprobación oficial.\nc) Toda información suministrada en este portal tiene carácter de declaración jurada.\n\n4. Tratamiento de Datos:\nLa información personal de los alumnos y representantes será tratada con estricta confidencialidad para fines exclusivamente académicos y administrativos del CASM."

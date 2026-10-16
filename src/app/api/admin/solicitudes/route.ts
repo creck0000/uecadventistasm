@@ -3,7 +3,7 @@ import { db } from "@/lib/dataStore";
 
 export async function GET() {
   try {
-    const solicitudes = db.getSolicitudes();
+    const solicitudes = await db.getSolicitudes();
     return NextResponse.json({ ok: true, solicitudes });
   } catch {
     return NextResponse.json({ ok: false, error: "Error al obtener solicitudes" }, { status: 500 });
@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
     }
 
     if (action === "aprobar") {
-      const ok = db.aprobarSolicitud(id);
+      const ok = await db.aprobarSolicitud(id);
       if (ok) {
         return NextResponse.json({ ok: true, message: "Solicitud aprobada y estudiante registrado oficialmente." });
       }
@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
     }
 
     if (action === "rechazar") {
-      const ok = db.rechazarSolicitud(id, motivo);
+      const ok = await db.rechazarSolicitud(id, motivo);
       if (ok) {
         return NextResponse.json({ ok: true, message: "Solicitud rechazada." });
       }

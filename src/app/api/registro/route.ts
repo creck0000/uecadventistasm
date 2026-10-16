@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Verificar si ya existe estudiante activo
-    const estExistente = db.getEstudianteByCedula(cedula);
+    const estExistente = await db.getEstudianteByCedula(cedula);
     if (estExistente && estExistente.estadoInscripcion === "activo") {
       return NextResponse.json(
         { ok: false, error: "Ya existe un estudiante activo registrado con esta cédula." },
@@ -52,7 +52,8 @@ export async function POST(req: NextRequest) {
     }
 
     // Verificar si ya tiene solicitud pendiente
-    const solExistente = db.getSolicitudes().find(
+    const solicitudes = await db.getSolicitudes();
+    const solExistente = solicitudes.find(
       (s) => s.cedula.toLowerCase() === cedula.toLowerCase() && s.estado === "pendiente"
     );
     if (solExistente) {
@@ -66,7 +67,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Crear solicitud
-    const nuevaSol = db.crearSolicitud({
+    const nuevaSol = await db.crearSolicitud({
       estudianteId: `E-TEMP-${Date.now().toString().slice(-4)}`,
       nombres: nombres.trim(),
       apellidos: apellidos.trim(),

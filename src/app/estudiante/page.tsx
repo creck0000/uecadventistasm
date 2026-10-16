@@ -20,7 +20,7 @@ export default async function EstudiantePanel() {
   const id = c.get("userId")?.value ?? "";
   
   // Buscar en la base de datos persistente
-  const estudiantes = db.getEstudiantes();
+  const estudiantes = await db.getEstudiantes();
   const est = estudiantes.find((e) => e.cedula.toLowerCase() === id.toLowerCase()) || estudiantes[0];
 
   if (!est) {
