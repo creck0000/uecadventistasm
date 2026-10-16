@@ -1,26 +1,118 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #eaeef4;
+  --foreground: #1f2937;
+  --primary: #284f65;
+  --primary-contrast: #ffffff;
+  --secondary: #acc4d2;
+  --accent: #b2b27a;
+  --highlight: #FFE58A;
+  --neutral: #524946;
+  --muted: #f3f4f6;
+  --muted-foreground: #374151;
+  --ring: var(--primary);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-primary: var(--primary);
+  --color-accent: var(--accent);
+  --color-secondary: var(--secondary);
+  --color-neutral: var(--neutral);
+  --font-sans: var(--font-sans);
+  --font-title: var(--font-title);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0b1220;
+    --foreground: #d6dde6;
+    --muted: #0f1a2b;
+    --muted-foreground: #cbd5e1;
+    --neutral: #e5e7eb;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+* { scroll-behavior: smooth; }
+
+.form-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #fff;
+  color: #111827;
+  border: 1px solid rgba(0,0,0,0.1);
+  padding: 0.5rem 2.5rem 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  transition: box-shadow .2s ease, transform .06s ease;
+}
+.form-select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(40,79,101,0.25);
+}
+select option {
+  color: #111827;
+  background: #ffffff;
+}
+@media (prefers-color-scheme: dark) {
+  .form-select { background-color: #fff; color: #111827; }
+  select option { background: #ffffff; color: #111827; }
+}
+
+.fx-btn {
+  transition: transform .12s ease, box-shadow .2s ease, filter .2s ease, background-color .2s ease, color .2s ease;
+  will-change: transform, box-shadow, filter;
+}
+.fx-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0,0,0,.12);
+  filter: saturate(1.05) brightness(1.03);
+}
+.fx-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 10px rgba(0,0,0,.10);
+  filter: none;
+}
+.fx-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(40,79,101,0.28), 0 8px 16px rgba(0,0,0,.12);
+}
+
+.fade-in-up { 
+  animation: fadeInUp .6s ease-out both;
+}
+.scale-in {
+  animation: scaleIn .4s ease-out both;
+}
+.slide-in-right {
+  animation: slideInRight .35s ease-out both;
+}
+.backdrop-fade {
+  animation: backdropFade .25s ease-out both;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0%); }
+}
+@keyframes backdropFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
