@@ -18,7 +18,7 @@ export default function Home() {
       setCurrent((prev) => (prev + 1) % heroImages.length);
     }, 5000);
     return () => clearInterval(timer);
-  }, [current]);
+  }, []);
 
   const prevSlide = () => {
     setCurrent((prev) => (prev - 1 + heroImages.length) % heroImages.length);
