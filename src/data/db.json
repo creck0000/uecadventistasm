@@ -1,0 +1,172 @@
+{
+  "usuarios": [
+    {
+      "id": "U-ADMIN",
+      "cedula": "V-00000001",
+      "email": "admin@casm.edu",
+      "rol": "admin",
+      "estado": "activo",
+      "fechaRegistro": "2026-01-01"
+    },
+    {
+      "id": "U-PROF-1",
+      "cedula": "V-87654321",
+      "email": "jose.perez@casm.edu",
+      "rol": "profesor",
+      "estado": "activo",
+      "fechaRegistro": "2026-01-10"
+    },
+    {
+      "id": "U-EST-1",
+      "cedula": "V-12345678",
+      "email": "maria.gonzalez@casm.edu",
+      "rol": "estudiante",
+      "estado": "activo",
+      "fechaRegistro": "2026-01-15"
+    },
+    {
+      "id": "U-1308",
+      "cedula": "V-29888999",
+      "email": "samuel.rojas@gmail.com",
+      "rol": "estudiante",
+      "estado": "activo",
+      "fechaRegistro": "2026-10-16"
+    }
+  ],
+  "estudiantes": [
+    {
+      "id": "E-001",
+      "nombres": "María",
+      "apellidos": "González",
+      "cedula": "V-12345678",
+      "email": "maria.gonzalez@casm.edu",
+      "fechaNacimiento": "2008-05-12",
+      "grado": "3° Año",
+      "seccion": "B",
+      "turno": "Mañana",
+      "estadoInscripcion": "activo",
+      "nombreRepresentante": "Carmen González",
+      "telefonoRepresentante": "+58 414-1234567",
+      "fechaRegistro": "2026-01-15",
+      "notas": [
+        {
+          "id": "N-001",
+          "lapso": "I",
+          "asignatura": "Matemática",
+          "calificacion": 18,
+          "observacion": "Excelente desempeño y puntualidad en entrega de proyectos.",
+          "fechaRegistro": "2026-02-10"
+        },
+        {
+          "id": "N-002",
+          "lapso": "I",
+          "asignatura": "Castellano y Literatura",
+          "calificacion": 17,
+          "observacion": "Buena redacción y comprensión lectora.",
+          "fechaRegistro": "2026-02-11"
+        },
+        {
+          "id": "N-003",
+          "lapso": "II",
+          "asignatura": "Historia de Venezuela",
+          "calificacion": 19,
+          "observacion": "Destacada participación en discusiones temáticas.",
+          "fechaRegistro": "2026-03-01"
+        }
+      ],
+      "asistencia": [
+        {
+          "fecha": "2026-02-01",
+          "presente": true
+        },
+        {
+          "fecha": "2026-02-02",
+          "presente": true
+        },
+        {
+          "fecha": "2026-02-03",
+          "presente": false
+        },
+        {
+          "fecha": "2026-02-04",
+          "presente": true
+        }
+      ]
+    },
+    {
+      "id": "E-1308",
+      "nombres": "Samuel David",
+      "apellidos": "Rojas Blanco",
+      "cedula": "V-29888999",
+      "email": "samuel.rojas@gmail.com",
+      "fechaNacimiento": "2010-01-01",
+      "grado": "4� A�o",
+      "seccion": "A",
+      "turno": "Ma�ana",
+      "estadoInscripcion": "activo",
+      "nombreRepresentante": "Marcos Rojas",
+      "telefonoRepresentante": "+58 414-9988776",
+      "notas": [],
+      "asistencia": [],
+      "fechaRegistro": "2026-10-16"
+    }
+  ],
+  "profesores": [
+    {
+      "id": "P-001",
+      "nombres": "José",
+      "apellidos": "Pérez",
+      "cedula": "V-87654321",
+      "email": "jose.perez@casm.edu",
+      "titulo": "Profesor en Educación Matemática y Física",
+      "asignaturas": [
+        "Matemática",
+        "Física"
+      ],
+      "gradosSecciones": [
+        {
+          "grado": "3° Año",
+          "seccion": "B"
+        },
+        {
+          "grado": "4° Año",
+          "seccion": "A"
+        }
+      ],
+      "estado": "activo"
+    }
+  ],
+  "solicitudes": [
+    {
+      "estudianteId": "E-TEMP-8168",
+      "nombres": "Samuel David",
+      "apellidos": "Rojas Blanco",
+      "cedula": "V-29888999",
+      "email": "samuel.rojas@gmail.com",
+      "grado": "4� A�o",
+      "turno": "Ma�ana",
+      "nombreRepresentante": "Marcos Rojas",
+      "telefonoRepresentante": "+58 414-9988776",
+      "terminosAceptados": true,
+      "id": "SOL-1792126658168",
+      "fechaSolicitud": "2026-10-16",
+      "estado": "activo"
+    },
+    {
+      "id": "SOL-101",
+      "estudianteId": "E-TEMP-101",
+      "nombres": "Andrés David",
+      "apellidos": "Mendoza Silva",
+      "cedula": "V-31456789",
+      "email": "andres.mendoza@gmail.com",
+      "grado": "1° Año",
+      "turno": "Mañana",
+      "nombreRepresentante": "Elena Silva",
+      "telefonoRepresentante": "+58 424-9876543",
+      "terminosAceptados": true,
+      "fechaSolicitud": "2026-03-10",
+      "estado": "pendiente"
+    }
+  ],
+  "terminosYCondiciones": "REGLAMENTO INTERNO Y TÉRMINOS DE INSCRIPCIÓN - COLEGIO ADVENTISTA SIERRA MAESTRA (CASM)\n\n1. De la Misión Institucional:\nEl Colegio Adventista Sierra Maestra tiene como misión ofrecer una educación cristiana e integral, fortaleciendo principios espirituales, morales, cívicos y de excelencia académica.\n\n2. Deberes del Representante y Estudiante:\na) Asistir puntualmente a las actividades académicas programadas.\nb) Portar el uniforme reglamentario con pulcritud y decoro.\nc) Mantener una conducta respetuosa hacia docentes, personal administrativo y compañeros.\nd) Cumplir con los plazos de entrega de evaluaciones y actividades formativas.\n\n3. Del Proceso de Admisión e Inscripción:\na) El envío de la solicitud de inscripción no garantiza el cupo de forma automática.\nb) La Dirección y Administración del plantel revisarán la documentación consignada y notificarán la aprobación oficial.\nc) Toda información suministrada en este portal tiene carácter de declaración jurada.\n\n4. Tratamiento de Datos:\nLa información personal de los alumnos y representantes será tratada con estricta confidencialidad para fines exclusivamente académicos y administrativos del CASM."
+}
