@@ -25,6 +25,32 @@
   --font-title: var(--font-title);
 }
 
+/* Compatibilidad de utilidades de color con variables CSS */
+.bg-\[--primary\], .bg-primary {
+  background-color: var(--primary) !important;
+}
+.text-\[--primary\], .text-primary {
+  color: var(--primary) !important;
+}
+.border-\[--primary\], .border-primary {
+  border-color: var(--primary) !important;
+}
+.bg-\[--secondary\], .bg-secondary {
+  background-color: var(--secondary) !important;
+}
+.text-\[--secondary\], .text-secondary {
+  color: var(--secondary) !important;
+}
+.border-\[--secondary\], .border-secondary {
+  border-color: var(--secondary) !important;
+}
+.bg-\[--secondary\]\/20 {
+  background-color: color-mix(in srgb, var(--secondary) 20%, transparent) !important;
+}
+.bg-\[--primary\]\/40 {
+  background-color: color-mix(in srgb, var(--primary) 40%, transparent) !important;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0b1220;

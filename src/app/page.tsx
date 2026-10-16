@@ -216,24 +216,32 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-[--primary]">
-        <div className="mx-auto max-w-7xl px-4 py-12">
+      <section className="bg-gradient-to-r from-[#173344] via-[#284f65] to-[#1c394a] text-white py-14 shadow-inner">
+        <div className="mx-auto max-w-7xl px-4">
           <Reveal>
-            <div className="flex flex-col items-start gap-4 text-white md:flex-row md:items-center md:justify-between">
-              <div>
-                <h2 className="text-2xl font-bold" style={{ fontFamily: "var(--font-title)" }}>
+            <div className="flex flex-col items-start gap-6 rounded-2xl bg-white/5 p-8 backdrop-blur md:flex-row md:items-center md:justify-between border border-white/10 shadow-lg">
+              <div className="max-w-xl">
+                <span className="inline-block rounded-full bg-[#FFE58A]/20 px-3.5 py-1 text-xs font-semibold text-[#FFE58A] mb-2.5 border border-[#FFE58A]/30">
+                  Admisiones Abiertas
+                </span>
+                <h2 className="text-2xl md:text-3xl font-bold text-white" style={{ fontFamily: "var(--font-title)" }}>
                   ¿Listos para formar parte de la comunidad CASM?
                 </h2>
-                <p className="text-white/85">Conoce nuestro proceso de admisión y horarios de atención.</p>
+                <p className="mt-2 text-white/90 text-base">
+                  Conoce nuestro proceso de admisión, requisitos y horarios de atención.
+                </p>
               </div>
-              <div className="flex gap-3">
+              <div className="flex flex-wrap gap-3">
                 <a
                   href="/admisiones"
-                  className="rounded bg-[#FFE58A] px-6 py-3 font-bold text-[#1f2937] ring-1 ring-black/10 shadow hover:brightness-95"
+                  className="fx-btn rounded-lg bg-[#FFE58A] px-6 py-3.5 font-bold text-[#1f2937] ring-1 ring-black/10 shadow hover:brightness-95 transition-all text-center"
                 >
                   Comenzar Admisión
                 </a>
-                <a href="/contacto" className="rounded bg-white/10 px-6 py-3 font-semibold text-white hover:bg-white/20">
+                <a
+                  href="/contacto"
+                  className="fx-btn rounded-lg bg-white/15 px-6 py-3.5 font-semibold text-white hover:bg-white/25 transition-all border border-white/25 text-center backdrop-blur"
+                >
                   Hablar con nosotros
                 </a>
               </div>
