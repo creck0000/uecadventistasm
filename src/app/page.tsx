@@ -73,28 +73,28 @@ export default function Home() {
                 <Sparkles className="w-3.5 h-3.5" />
                 Educación Integral Cristiana
               </span>
-              <h1 className="mb-4 text-4xl md:text-5xl font-extrabold leading-tight text-white" style={{ fontFamily: "var(--font-title)" }}>
+              <h1 className="mb-4 text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight text-white" style={{ fontFamily: "var(--font-title)" }}>
                 Colegio Adventista Sierra Maestra
               </h1>
-              <p className="mb-6 max-w-prose text-lg text-white/90">
+              <p className="mb-6 max-w-prose text-base sm:text-lg text-white/90">
                 Educación con excelencia académica y valores en Maracaibo. Portal institucional y plataforma de gestión escolar.
               </p>
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-col sm:flex-row flex-wrap gap-2.5 sm:gap-3">
                 <a
                   href="/admisiones"
-                  className="fx-btn rounded-lg bg-[#FFE58A] px-6 py-3 font-bold text-[#1f2937] ring-1 ring-black/10 shadow hover:brightness-95 transition-all"
+                  className="fx-btn rounded-lg bg-[#FFE58A] px-6 py-3 font-bold text-[#1f2937] ring-1 ring-black/10 shadow hover:brightness-95 transition-all text-center"
                 >
                   Admisiones
                 </a>
                 <a
                   href="/registro"
-                  className="fx-btn rounded-lg bg-white/10 px-6 py-3 font-semibold text-white backdrop-blur hover:bg-white/20 transition-all border border-white/20"
+                  className="fx-btn rounded-lg bg-white/10 px-6 py-3 font-semibold text-white backdrop-blur hover:bg-white/20 transition-all border border-white/20 text-center"
                 >
                   Registrarme
                 </a>
                 <a
                   href="/login"
-                  className="fx-btn rounded-lg bg-white/5 px-6 py-3 text-sm font-semibold text-white backdrop-blur hover:bg-white/15 transition-all border border-white/10"
+                  className="fx-btn rounded-lg bg-white/5 px-6 py-3 text-sm font-semibold text-white backdrop-blur hover:bg-white/15 transition-all border border-white/10 text-center"
                 >
                   Ya tengo cuenta
                 </a>
