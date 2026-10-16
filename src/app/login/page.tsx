@@ -56,14 +56,14 @@ export default function Login() {
   return (
     <section className="mx-auto max-w-md px-4 py-12">
       <Reveal>
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-[#FFE58A]/30 px-3.5 py-1 text-xs font-bold text-[#1f2937] mb-2.5">
-          <Sparkles className="w-3.5 h-3.5" />
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-100 text-amber-900 border border-amber-200 px-3.5 py-1 text-xs font-bold mb-2.5 shadow-2xs">
+          <Sparkles className="w-3.5 h-3.5 text-amber-700" />
           Portal Institucional CASM
         </span>
-        <h1 className="mb-2 text-3xl font-extrabold text-[#111827]" style={{ fontFamily: "var(--font-title)" }}>
+        <h1 className="mb-2 text-3xl md:text-4xl font-black text-[#0f172a]" style={{ fontFamily: "var(--font-title)" }}>
           Iniciar Sesión
         </h1>
-        <p className="mb-6 text-sm text-[#4b5563]">
+        <p className="mb-6 text-sm text-gray-600 font-medium">
           Ingresa con tu Cédula de Identidad o ID según tu rol asignado.
         </p>
       </Reveal>

@@ -1,17 +1,18 @@
 @import "tailwindcss";
 
 :root {
-  --background: #eaeef4;
-  --foreground: #1f2937;
+  --background: #f8fafc;
+  --foreground: #0f172a;
   --primary: #284f65;
   --primary-contrast: #ffffff;
   --secondary: #acc4d2;
   --accent: #b2b27a;
   --highlight: #FFE58A;
-  --neutral: #524946;
-  --muted: #f3f4f6;
-  --muted-foreground: #374151;
+  --neutral: #334155;
+  --muted: #f1f5f9;
+  --muted-foreground: #475569;
   --ring: var(--primary);
+  color-scheme: light;
 }
 
 @theme inline {
@@ -51,20 +52,12 @@
   background-color: color-mix(in srgb, var(--primary) 40%, transparent) !important;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0b1220;
-    --foreground: #d6dde6;
-    --muted: #0f1a2b;
-    --muted-foreground: #cbd5e1;
-    --neutral: #e5e7eb;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 * { scroll-behavior: smooth; }
@@ -88,10 +81,6 @@ body {
 select option {
   color: #111827;
   background: #ffffff;
-}
-@media (prefers-color-scheme: dark) {
-  .form-select { background-color: #fff; color: #111827; }
-  select option { background: #ffffff; color: #111827; }
 }
 
 .fx-btn {
