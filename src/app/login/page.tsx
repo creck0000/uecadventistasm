@@ -3,6 +3,16 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Reveal from "@/components/ui/Reveal";
+import {
+  Zap,
+  ArrowRight,
+  AlertCircle,
+  Shield,
+  GraduationCap,
+  Users2,
+  Lock,
+  Sparkles,
+} from "lucide-react";
 
 export default function Login() {
   const router = useRouter();
@@ -46,9 +56,10 @@ export default function Login() {
   return (
     <section className="mx-auto max-w-md px-4 py-12">
       <Reveal>
-        <div className="mb-2 inline-block rounded-full bg-[#FFE58A]/30 px-3 py-1 text-xs font-bold text-[#1f2937]">
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-[#FFE58A]/30 px-3.5 py-1 text-xs font-bold text-[#1f2937] mb-2.5">
+          <Sparkles className="w-3.5 h-3.5" />
           Portal Institucional CASM
-        </div>
+        </span>
         <h1 className="mb-2 text-3xl font-extrabold text-[#111827]" style={{ fontFamily: "var(--font-title)" }}>
           Iniciar Sesión
         </h1>
@@ -58,10 +69,8 @@ export default function Login() {
       </Reveal>
 
       {error && (
-        <div className="mb-4 rounded-xl border border-red-200 bg-red-50 p-4 text-xs font-medium text-red-700 leading-relaxed flex items-start gap-2.5">
-          <svg className="w-4 h-4 flex-shrink-0 mt-0.5 text-red-600" fill="currentColor" viewBox="0 0 20 20">
-            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-          </svg>
+        <div className="mb-4 rounded-xl border border-red-200 bg-red-50 p-4 text-xs font-medium text-red-700 leading-relaxed flex items-start gap-2.5 shadow-sm">
+          <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5 text-red-600" />
           <div>{error}</div>
         </div>
       )}
@@ -76,13 +85,12 @@ export default function Login() {
                 setRole(e.target.value as "estudiante" | "profesor" | "admin");
                 setError("");
               }}
-              className="form-select w-full text-sm font-medium"
+              className="form-select w-full text-sm font-medium pr-10"
             >
               <option value="estudiante">Estudiante / Representante</option>
               <option value="profesor">Personal Docente (Profesor)</option>
               <option value="admin">Administrador General</option>
             </select>
-            <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[#111827]">▾</span>
           </div>
         </div>
 
@@ -90,21 +98,24 @@ export default function Login() {
           <label className="block text-xs font-bold text-[#111827]">
             {role === "admin" ? "Cédula o Usuario Admin" : "Cédula de Identidad / Escolar"}
           </label>
-          <input
-            value={id}
-            onChange={(e) => setId(e.target.value)}
-            className="w-full rounded-lg border border-black/15 p-2.5 text-sm focus:border-[--primary] focus:outline-none focus:ring-1 focus:ring-[--primary]"
-            placeholder={role === "admin" ? "V-00000001 o admin" : "Ej. V-12345678"}
-            required
-          />
+          <div className="relative">
+            <input
+              value={id}
+              onChange={(e) => setId(e.target.value)}
+              className="w-full rounded-lg border border-black/15 p-2.5 pl-3 text-sm focus:border-[--primary] focus:outline-none focus:ring-1 focus:ring-[--primary]"
+              placeholder={role === "admin" ? "V-00000001 o admin" : "Ej. V-12345678"}
+              required
+            />
+          </div>
         </div>
 
         <button
           type="submit"
           disabled={loading}
-          className="fx-btn w-full rounded-lg bg-[--primary] px-4 py-3 font-bold text-white shadow hover:opacity-95 disabled:opacity-50 cursor-pointer"
+          className="fx-btn inline-flex items-center justify-center gap-2 w-full rounded-lg bg-[--primary] px-4 py-3 font-bold text-white shadow hover:opacity-95 disabled:opacity-50 cursor-pointer text-sm"
         >
-          {loading ? "Comprobando credenciales..." : "Entrar al Sistema"}
+          <Lock className="w-4 h-4" />
+          <span>{loading ? "Comprobando credenciales..." : "Entrar al Sistema"}</span>
         </button>
 
         <div className="pt-2 text-center text-xs text-gray-500">
@@ -116,32 +127,50 @@ export default function Login() {
       </form>
 
       {/* Cuentas de Acceso Rápido / Demo */}
-      <div className="mt-6 rounded-xl border border-gray-200 bg-gray-50 p-4 text-xs text-gray-700">
-        <p className="font-bold text-gray-800 mb-2">⚡ Cuentas para pruebas rápidas:</p>
+      <div className="mt-6 rounded-2xl border border-gray-200 bg-gray-50 p-4 text-xs text-gray-700 shadow-sm">
+        <div className="flex items-center gap-1.5 font-bold text-gray-800 mb-2.5">
+          <Zap className="w-4 h-4 text-amber-500" />
+          <span>Cuentas para pruebas rápidas:</span>
+        </div>
         <div className="grid gap-2">
           <button
             type="button"
             onClick={() => setTestAccount("admin", "V-00000001")}
-            className="text-left p-2 rounded bg-white border border-gray-200 hover:border-[--primary] hover:bg-blue-50/50 transition-all flex items-center justify-between"
+            className="text-left p-2.5 rounded-xl bg-white border border-gray-200 hover:border-[--primary] hover:bg-blue-50/50 transition-all flex items-center justify-between group cursor-pointer"
           >
-            <span><strong>Administrador:</strong> Cédula: <code className="bg-gray-100 px-1 rounded">V-00000001</code></span>
-            <span className="text-[--primary] font-semibold">Usar ➔</span>
+            <div className="flex items-center gap-2">
+              <Shield className="w-4 h-4 text-amber-600" />
+              <span><strong>Administrador:</strong> <code className="bg-gray-100 px-1 py-0.5 rounded text-[11px]">V-00000001</code></span>
+            </div>
+            <span className="text-[--primary] font-semibold flex items-center gap-1 text-[11px] group-hover:translate-x-0.5 transition-transform">
+              Usar <ArrowRight className="w-3 h-3" />
+            </span>
           </button>
           <button
             type="button"
             onClick={() => setTestAccount("profesor", "V-87654321")}
-            className="text-left p-2 rounded bg-white border border-gray-200 hover:border-[--primary] hover:bg-blue-50/50 transition-all flex items-center justify-between"
+            className="text-left p-2.5 rounded-xl bg-white border border-gray-200 hover:border-[--primary] hover:bg-blue-50/50 transition-all flex items-center justify-between group cursor-pointer"
           >
-            <span><strong>Profesor:</strong> José Pérez (<code className="bg-gray-100 px-1 rounded">V-87654321</code>)</span>
-            <span className="text-[--primary] font-semibold">Usar ➔</span>
+            <div className="flex items-center gap-2">
+              <Users2 className="w-4 h-4 text-emerald-600" />
+              <span><strong>Profesor:</strong> José Pérez (<code className="bg-gray-100 px-1 py-0.5 rounded text-[11px]">V-87654321</code>)</span>
+            </div>
+            <span className="text-[--primary] font-semibold flex items-center gap-1 text-[11px] group-hover:translate-x-0.5 transition-transform">
+              Usar <ArrowRight className="w-3 h-3" />
+            </span>
           </button>
           <button
             type="button"
             onClick={() => setTestAccount("estudiante", "V-12345678")}
-            className="text-left p-2 rounded bg-white border border-gray-200 hover:border-[--primary] hover:bg-blue-50/50 transition-all flex items-center justify-between"
+            className="text-left p-2.5 rounded-xl bg-white border border-gray-200 hover:border-[--primary] hover:bg-blue-50/50 transition-all flex items-center justify-between group cursor-pointer"
           >
-            <span><strong>Estudiante:</strong> María González (<code className="bg-gray-100 px-1 rounded">V-12345678</code>)</span>
-            <span className="text-[--primary] font-semibold">Usar ➔</span>
+            <div className="flex items-center gap-2">
+              <GraduationCap className="w-4 h-4 text-blue-600" />
+              <span><strong>Estudiante:</strong> María González (<code className="bg-gray-100 px-1 py-0.5 rounded text-[11px]">V-12345678</code>)</span>
+            </div>
+            <span className="text-[--primary] font-semibold flex items-center gap-1 text-[11px] group-hover:translate-x-0.5 transition-transform">
+              Usar <ArrowRight className="w-3 h-3" />
+            </span>
           </button>
         </div>
       </div>

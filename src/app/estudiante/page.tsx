@@ -1,6 +1,19 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { db } from "@/lib/dataStore";
+import {
+  Award,
+  CheckCircle2,
+  Clock,
+  LogOut,
+  GraduationCap,
+  Calendar,
+  User,
+  ClipboardList,
+  Check,
+  X,
+  FileText,
+} from "lucide-react";
 
 export default async function EstudiantePanel() {
   const c = await cookies();
@@ -57,8 +70,9 @@ export default async function EstudiantePanel() {
 
         <div className="flex items-center gap-3">
           <form action="/api/logout" method="post">
-            <button className="fx-btn rounded-lg bg-gray-100 hover:bg-red-50 hover:text-red-600 px-4 py-2 text-xs font-bold text-gray-700 transition-all border border-gray-200">
-              Cerrar Sesión
+            <button className="fx-btn inline-flex items-center gap-1.5 rounded-lg bg-gray-100 hover:bg-red-50 hover:text-red-600 px-4 py-2 text-xs font-bold text-gray-700 transition-all border border-gray-200 cursor-pointer">
+              <LogOut className="w-3.5 h-3.5" />
+              <span>Cerrar Sesión</span>
             </button>
           </form>
         </div>
@@ -66,30 +80,57 @@ export default async function EstudiantePanel() {
 
       {/* Tarjetas de Resumen */}
       <div className="mb-8 grid gap-4 sm:grid-cols-2 md:grid-cols-4">
-        <div className="rounded-xl border border-black/10 bg-white p-4 shadow-sm">
-          <div className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Estudiante</div>
-          <div className="text-base font-bold text-gray-900 mt-1 truncate">{est.nombres} {est.apellidos}</div>
-          <div className="text-xs font-mono text-[--primary] font-semibold">{est.cedula}</div>
+        <div className="rounded-2xl border border-black/10 bg-white p-5 shadow-sm">
+          <div className="flex items-center justify-between text-gray-400 mb-2">
+            <span className="text-[11px] font-semibold uppercase tracking-wider">Estudiante</span>
+            <User className="w-4 h-4 text-gray-400" />
+          </div>
+          <div className="text-base font-bold text-gray-900 truncate">{est.nombres} {est.apellidos}</div>
+          <div className="text-xs font-mono text-[--primary] font-semibold mt-0.5">{est.cedula}</div>
         </div>
 
-        <div className="rounded-xl border border-black/10 bg-white p-4 shadow-sm">
-          <div className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Grado y Sección</div>
-          <div className="text-base font-bold text-gray-900 mt-1">{est.grado} - Sección &quot;{est.seccion}&quot;</div>
-          <div className="text-xs text-gray-500">Turno: {est.turno}</div>
+        <div className="rounded-2xl border border-black/10 bg-white p-5 shadow-sm">
+          <div className="flex items-center justify-between text-gray-400 mb-2">
+            <span className="text-[11px] font-semibold uppercase tracking-wider">Grado y Sección</span>
+            <GraduationCap className="w-4 h-4 text-gray-400" />
+          </div>
+          <div className="text-base font-bold text-gray-900">{est.grado} - Sección &quot;{est.seccion}&quot;</div>
+          <div className="text-xs text-gray-500 mt-0.5">Turno: {est.turno}</div>
         </div>
 
-        <div className="rounded-xl border border-emerald-200 bg-emerald-50/50 p-4 shadow-sm">
-          <div className="text-[11px] font-semibold text-emerald-800 uppercase tracking-wider">Promedio General</div>
-          <div className="text-2xl font-extrabold text-emerald-700 mt-1">{promedio} <span className="text-xs font-medium text-emerald-600">/ 20</span></div>
-          <div className="text-[11px] text-emerald-700">
-            {Number(promedio) >= 16 ? "🌟 Rendimiento Sobresaliente" : Number(promedio) >= 10 ? "✅ Promovido" : "En curso"}
+        <div className="rounded-2xl border border-emerald-200 bg-emerald-50/50 p-5 shadow-sm">
+          <div className="flex items-center justify-between text-emerald-800 mb-2">
+            <span className="text-[11px] font-semibold uppercase tracking-wider">Promedio General</span>
+            <Award className="w-4 h-4 text-emerald-600" />
+          </div>
+          <div className="text-2xl font-extrabold text-emerald-700">{promedio} <span className="text-xs font-medium text-emerald-600">/ 20</span></div>
+          <div className="text-[11px] text-emerald-700 mt-1 flex items-center gap-1 font-semibold">
+            {Number(promedio) >= 16 ? (
+              <>
+                <Award className="w-3.5 h-3.5 text-amber-500" />
+                <span>Rendimiento Sobresaliente</span>
+              </>
+            ) : Number(promedio) >= 10 ? (
+              <>
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                <span>Promovido</span>
+              </>
+            ) : (
+              <>
+                <Clock className="w-3.5 h-3.5 text-amber-600" />
+                <span>En curso</span>
+              </>
+            )}
           </div>
         </div>
 
-        <div className="rounded-xl border border-blue-200 bg-blue-50/50 p-4 shadow-sm">
-          <div className="text-[11px] font-semibold text-blue-800 uppercase tracking-wider">Índice de Asistencia</div>
-          <div className="text-2xl font-extrabold text-blue-700 mt-1">{porcentajeAsistencia}%</div>
-          <div className="text-[11px] text-blue-700">{asistenciasPresentes} de {totalAsistencias} jornadas</div>
+        <div className="rounded-2xl border border-blue-200 bg-blue-50/50 p-5 shadow-sm">
+          <div className="flex items-center justify-between text-blue-800 mb-2">
+            <span className="text-[11px] font-semibold uppercase tracking-wider">Índice de Asistencia</span>
+            <Calendar className="w-4 h-4 text-blue-600" />
+          </div>
+          <div className="text-2xl font-extrabold text-blue-700">{porcentajeAsistencia}%</div>
+          <div className="text-[11px] text-blue-700 mt-1">{asistenciasPresentes} de {totalAsistencias} jornadas escolares</div>
         </div>
       </div>
 
@@ -97,7 +138,8 @@ export default async function EstudiantePanel() {
       <div className="rounded-2xl border border-black/10 bg-white p-6 shadow-sm mb-8">
         <div className="mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between border-b pb-3 gap-2">
           <div>
-            <h2 className="text-base font-bold text-gray-900">
+            <h2 className="text-base font-bold text-gray-900 flex items-center gap-2">
+              <FileText className="w-4 h-4 text-[--primary]" />
               Calificaciones Oficiales por Lapso
             </h2>
             <p className="text-xs text-gray-500">
@@ -111,8 +153,8 @@ export default async function EstudiantePanel() {
 
         {notas.length === 0 ? (
           <div className="p-10 text-center text-xs text-gray-500 bg-gray-50 rounded-xl border border-dashed">
-            <span className="text-2xl block mb-2">📋</span>
-            Aún no se han asentado calificaciones en tu expediente escolar para este período.
+            <ClipboardList className="w-10 h-10 text-gray-300 mx-auto mb-2" />
+            <p className="font-semibold text-gray-700">Aún no se han asentado calificaciones en tu expediente escolar para este período.</p>
             <div className="mt-1 text-gray-400">La administración las publicará a medida que culmine cada lapso académico.</div>
           </div>
         ) : (
@@ -175,7 +217,10 @@ export default async function EstudiantePanel() {
       {/* Asistencias y Datos Escolares */}
       <div className="grid gap-6 md:grid-cols-2">
         <div className="rounded-2xl border border-black/10 bg-white p-6 shadow-sm">
-          <h2 className="mb-3 text-base font-bold text-gray-900">Historial Reciente de Asistencia</h2>
+          <h2 className="mb-3 text-base font-bold text-gray-900 flex items-center gap-2">
+            <Calendar className="w-4 h-4 text-[--primary]" />
+            Historial Reciente de Asistencia
+          </h2>
           {est.asistencia && est.asistencia.length > 0 ? (
             <ul className="divide-y divide-gray-100 text-xs">
               {est.asistencia.map((a, i) => (
@@ -186,7 +231,17 @@ export default async function EstudiantePanel() {
                       a.presente ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
                     }`}
                   >
-                    {a.presente ? "✓ Presente" : "✗ Inasistencia"}
+                    {a.presente ? (
+                      <>
+                        <Check className="w-3 h-3" />
+                        <span>Presente</span>
+                      </>
+                    ) : (
+                      <>
+                        <X className="w-3 h-3" />
+                        <span>Inasistencia</span>
+                      </>
+                    )}
                   </span>
                 </li>
               ))}
@@ -199,7 +254,7 @@ export default async function EstudiantePanel() {
         <div className="rounded-2xl border border-black/10 bg-white p-6 shadow-sm flex flex-col justify-between">
           <div>
             <h2 className="mb-2 text-base font-bold text-gray-900">Información del Representante</h2>
-            <div className="text-xs text-gray-600 space-y-1.5 mt-3 bg-gray-50 p-4 rounded-xl border">
+            <div className="text-xs text-gray-600 space-y-2 mt-3 bg-gray-50 p-4 rounded-xl border">
               <div><strong>Representante:</strong> {est.nombreRepresentante || "Representante Asignado"}</div>
               <div><strong>Teléfono:</strong> {est.telefonoRepresentante || "No registrado"}</div>
               <div><strong>Fecha de Nacimiento del Alumno:</strong> {est.fechaNacimiento}</div>

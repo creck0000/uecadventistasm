@@ -1,5 +1,15 @@
 import Reveal from "@/components/ui/Reveal";
 import Link from "next/link";
+import {
+  Palette,
+  Clock,
+  BookOpen,
+  FlaskConical,
+  GraduationCap,
+  CheckCircle2,
+  ArrowRight,
+  Sparkles,
+} from "lucide-react";
 
 export default function OfertaAcademica() {
   return (
@@ -16,7 +26,8 @@ export default function OfertaAcademica() {
         <div className="absolute inset-0 bg-gradient-to-r from-[#112430]/95 via-[#173344]/90 to-[#173344]/70" />
         <div className="relative z-10 mx-auto max-w-7xl px-4">
           <Reveal>
-            <span className="inline-block rounded-full bg-[#FFE58A]/20 px-3.5 py-1 text-xs font-bold text-[#FFE58A] mb-3 border border-[#FFE58A]/30">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#FFE58A]/20 px-3.5 py-1 text-xs font-bold text-[#FFE58A] mb-3 border border-[#FFE58A]/30">
+              <Sparkles className="w-3.5 h-3.5" />
               Excelencia Curricular
             </span>
             <h1 className="text-3xl md:text-5xl font-extrabold leading-tight text-white" style={{ fontFamily: "var(--font-title)" }}>
@@ -46,12 +57,18 @@ export default function OfertaAcademica() {
               </p>
               <div className="mt-4 grid grid-cols-2 gap-3 text-xs text-gray-700">
                 <div className="rounded-lg bg-gray-50 p-3 border">
-                  <strong>🎨 Áreas de Aprendizaje:</strong>
-                  <p className="mt-1 text-gray-500">Cognitiva, socioemocional, psicomotriz y lenguaje.</p>
+                  <div className="flex items-center gap-1.5 font-bold text-gray-900 mb-1">
+                    <Palette className="w-4 h-4 text-[--primary]" />
+                    <span>Áreas de Aprendizaje:</span>
+                  </div>
+                  <p className="text-gray-500">Cognitiva, socioemocional, psicomotriz y lenguaje.</p>
                 </div>
                 <div className="rounded-lg bg-gray-50 p-3 border">
-                  <strong>⏰ Horario Escolar:</strong>
-                  <p className="mt-1 text-gray-500">Turno Mañana: 7:30 AM a 11:45 AM.</p>
+                  <div className="flex items-center gap-1.5 font-bold text-gray-900 mb-1">
+                    <Clock className="w-4 h-4 text-[--primary]" />
+                    <span>Horario Escolar:</span>
+                  </div>
+                  <p className="text-gray-500">Turno Mañana: 7:30 AM a 11:45 AM.</p>
                 </div>
               </div>
             </div>
@@ -59,18 +76,18 @@ export default function OfertaAcademica() {
           <Reveal delay={100}>
             <div className="rounded-2xl border border-black/10 bg-white p-6 shadow-sm">
               <h3 className="font-bold text-sm text-gray-900 mb-3">Características del Nivel Inicial:</h3>
-              <ul className="space-y-2 text-xs text-gray-600">
+              <ul className="space-y-2.5 text-xs text-gray-600">
                 <li className="flex items-start gap-2">
-                  <span className="text-emerald-600 font-bold">✓</span>
-                  Acompañamiento personalizado con docentes especialistas en primera infancia.
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
+                  <span>Acompañamiento personalizado con docentes especialistas en primera infancia.</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-emerald-600 font-bold">✓</span>
-                  Ambientes lúdicos, seguros y climatizados.
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
+                  <span>Ambientes lúdicos, seguros y climatizados.</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-emerald-600 font-bold">✓</span>
-                  Iniciación fonética al inglés y estímulo a la lectura interactiva.
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
+                  <span>Iniciación fonética al inglés y estímulo a la lectura interactiva.</span>
                 </li>
               </ul>
             </div>
@@ -82,22 +99,22 @@ export default function OfertaAcademica() {
           <Reveal delay={100}>
             <div className="rounded-2xl border border-black/10 bg-white p-6 shadow-sm order-2 lg:order-1">
               <h3 className="font-bold text-sm text-gray-900 mb-3">Enfoque Pedagógico en Primaria:</h3>
-              <ul className="space-y-2 text-xs text-gray-600">
+              <ul className="space-y-2.5 text-xs text-gray-600">
                 <li className="flex items-start gap-2">
-                  <span className="text-emerald-600 font-bold">✓</span>
-                  Énfasis en matemáticas aplicadas, cálculo mental y razonamiento numérico.
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
+                  <span>Énfasis en matemáticas aplicadas, cálculo mental y razonamiento numérico.</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-emerald-600 font-bold">✓</span>
-                  Clubes de lectura y ortografía con biblioteca escolar activa.
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
+                  <span>Clubes de lectura y ortografía con biblioteca escolar activa.</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-emerald-600 font-bold">✓</span>
-                  Educación ambiental y proyectos de cuidado del entorno.
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
+                  <span>Educación ambiental y proyectos de cuidado del entorno.</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-emerald-600 font-bold">✓</span>
-                  Actividades de coro escolar y valores cristianos aplicados.
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
+                  <span>Actividades de coro escolar y valores cristianos aplicados.</span>
                 </li>
               </ul>
             </div>
@@ -115,12 +132,18 @@ export default function OfertaAcademica() {
               </p>
               <div className="mt-4 grid grid-cols-2 gap-3 text-xs text-gray-700">
                 <div className="rounded-lg bg-gray-50 p-3 border">
-                  <strong>📚 Asignaturas Troncales:</strong>
-                  <p className="mt-1 text-gray-500">Lenguaje, Matemática, Ciencias Naturales, Ciencias Sociales e Inglés.</p>
+                  <div className="flex items-center gap-1.5 font-bold text-gray-900 mb-1">
+                    <BookOpen className="w-4 h-4 text-[--primary]" />
+                    <span>Asignaturas Troncales:</span>
+                  </div>
+                  <p className="text-gray-500">Lenguaje, Matemática, Ciencias Naturales, Sociales e Inglés.</p>
                 </div>
                 <div className="rounded-lg bg-gray-50 p-3 border">
-                  <strong>⏰ Horario Escolar:</strong>
-                  <p className="mt-1 text-gray-500">Turno Mañana: 7:00 AM a 12:30 PM.</p>
+                  <div className="flex items-center gap-1.5 font-bold text-gray-900 mb-1">
+                    <Clock className="w-4 h-4 text-[--primary]" />
+                    <span>Horario Escolar:</span>
+                  </div>
+                  <p className="text-gray-500">Turno Mañana: 7:00 AM a 12:30 PM.</p>
                 </div>
               </div>
             </div>
@@ -142,12 +165,18 @@ export default function OfertaAcademica() {
               </p>
               <div className="mt-4 grid grid-cols-2 gap-3 text-xs text-gray-700">
                 <div className="rounded-lg bg-gray-50 p-3 border">
-                  <strong>🔬 Laboratorios y Prácticas:</strong>
-                  <p className="mt-1 text-gray-500">Física, Química Orgánica e Inorgánica, Biología Celular y Genética.</p>
+                  <div className="flex items-center gap-1.5 font-bold text-gray-900 mb-1">
+                    <FlaskConical className="w-4 h-4 text-[--primary]" />
+                    <span>Laboratorios y Prácticas:</span>
+                  </div>
+                  <p className="text-gray-500">Física, Química Orgánica e Inorgánica, Biología Celular y Genética.</p>
                 </div>
                 <div className="rounded-lg bg-gray-50 p-3 border">
-                  <strong>🎓 Título Obtenido:</strong>
-                  <p className="mt-1 text-gray-500">Bachiller en Ciencias (avalado por el Ministerio de Educación).</p>
+                  <div className="flex items-center gap-1.5 font-bold text-gray-900 mb-1">
+                    <GraduationCap className="w-4 h-4 text-[--primary]" />
+                    <span>Título Obtenido:</span>
+                  </div>
+                  <p className="text-gray-500">Bachiller en Ciencias (avalado por el Ministerio de Educación).</p>
                 </div>
               </div>
             </div>
@@ -171,9 +200,10 @@ export default function OfertaAcademica() {
           </p>
           <Link
             href="/registro"
-            className="fx-btn inline-block rounded-lg bg-[#FFE58A] px-8 py-3 text-xs font-bold text-[#1f2937] ring-1 ring-black/10 shadow"
+            className="fx-btn inline-flex items-center gap-1.5 rounded-lg bg-[#FFE58A] px-8 py-3 text-xs font-bold text-[#1f2937] ring-1 ring-black/10 shadow hover:brightness-95 transition-all"
           >
-            Comenzar Solicitud de Inscripción →
+            <span>Comenzar Solicitud de Inscripción</span>
+            <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
       </section>

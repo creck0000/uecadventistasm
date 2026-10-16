@@ -2,6 +2,17 @@
 import { useState, FormEvent } from "react";
 import Reveal from "@/components/ui/Reveal";
 import Link from "next/link";
+import {
+  GraduationCap,
+  Users2,
+  CheckCircle2,
+  Info,
+  X,
+  FileText,
+  ArrowRight,
+  Sparkles,
+  AlertCircle,
+} from "lucide-react";
 
 type Role = "estudiante" | "profesor";
 
@@ -72,10 +83,11 @@ export default function Registro() {
   return (
     <section className="mx-auto max-w-3xl px-4 py-12">
       <Reveal>
-        <div className="mb-2 inline-block rounded-full bg-[#FFE58A]/30 px-3 py-1 text-xs font-bold text-[#1f2937]">
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-[#FFE58A]/30 px-3.5 py-1 text-xs font-bold text-[#1f2937] mb-2.5">
+          <Sparkles className="w-3.5 h-3.5" />
           Proceso Oficial de Admisión
-        </div>
-        <h1 className="mb-4 text-3xl md:text-4xl font-extrabold text-[#111827]" style={{ fontFamily: "var(--font-title)" }}>
+        </span>
+        <h1 className="mb-3 text-3xl md:text-4xl font-extrabold text-[#111827]" style={{ fontFamily: "var(--font-title)" }}>
           Registro de Solicitud Escolar
         </h1>
         <p className="mb-8 text-sm text-[#4b5563]">
@@ -87,24 +99,26 @@ export default function Registro() {
         <Reveal>
           <div className="rounded-2xl border border-green-200 bg-white p-8 shadow-sm text-center">
             <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100 text-green-600">
-              <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
-              </svg>
+              <CheckCircle2 className="h-8 w-8" />
             </div>
             <h2 className="text-2xl font-bold text-gray-900 mb-2">¡Solicitud de Inscripción Radicada!</h2>
             <p className="text-gray-600 max-w-lg mx-auto mb-6 text-sm">
               {successMessage}
             </p>
-            <div className="rounded-lg bg-blue-50 border border-blue-100 p-4 mb-6 text-left text-xs text-blue-900">
-              <p className="font-semibold mb-1">ℹ️ Próximos pasos:</p>
-              <ul className="list-disc pl-4 space-y-1">
-                <li>El personal administrativo verificará los datos suministrados.</li>
+            <div className="rounded-xl bg-blue-50 border border-blue-100 p-4 mb-6 text-left text-xs text-blue-900">
+              <div className="flex items-center gap-1.5 font-bold mb-2 text-blue-950">
+                <Info className="w-4 h-4 text-blue-600" />
+                <span>Próximos pasos informativos:</span>
+              </div>
+              <ul className="list-disc pl-5 space-y-1 text-blue-900/90">
+                <li>El personal administrativo verificará los datos y documentos consignados.</li>
                 <li>Una vez aprobada tu cuenta, podrás iniciar sesión con tu cédula en el portal para consultar tu boletín de notas y horarios.</li>
               </ul>
             </div>
             <div className="flex flex-wrap justify-center gap-3">
-              <Link href="/login" className="fx-btn rounded-lg bg-[--primary] px-6 py-2.5 font-bold text-white">
-                Ir a Ingresar
+              <Link href="/login" className="fx-btn inline-flex items-center gap-1.5 rounded-lg bg-[--primary] px-6 py-2.5 font-bold text-white shadow">
+                <span>Ir a Ingresar</span>
+                <ArrowRight className="w-4 h-4" />
               </Link>
               <Link href="/" className="fx-btn rounded-lg border border-black/15 bg-white px-5 py-2.5 font-semibold text-gray-700 hover:bg-gray-50">
                 Volver al Inicio
@@ -117,8 +131,8 @@ export default function Registro() {
           <Reveal>
             <div className="mb-6 grid gap-3 sm:grid-cols-2">
               <label
-                className={`relative cursor-pointer rounded-xl border p-4 pl-5 bg-white transition-all ${
-                  role === "estudiante" ? "bg-[--highlight] border-black/20 shadow-sm" : "border-black/10 hover:bg-[--highlight]"
+                className={`relative cursor-pointer rounded-2xl border p-4 pl-5 bg-white transition-all ${
+                  role === "estudiante" ? "bg-blue-50/40 border-[--primary] ring-1 ring-[--primary] shadow-sm" : "border-black/10 hover:bg-gray-50"
                 }`}
               >
                 <input
@@ -130,25 +144,24 @@ export default function Registro() {
                   className="sr-only"
                 />
                 {role === "estudiante" && (
-                  <>
-                    <span className="absolute left-0 top-0 h-full w-1.5 bg-[--primary] rounded-l" aria-hidden="true" />
-                    <span className="absolute right-3 top-3 text-[#111827]">
-                      <IconCheck className="h-5 w-5" />
-                    </span>
-                  </>
+                  <span className="absolute right-3 top-3 text-[--primary]">
+                    <CheckCircle2 className="h-5 w-5" />
+                  </span>
                 )}
                 <div className="flex items-center gap-3">
-                  <IconEstudiante className="h-6 w-6 text-[--primary]" />
+                  <div className="p-2.5 rounded-xl bg-blue-50 text-[--primary] border border-blue-100">
+                    <GraduationCap className="h-6 w-6" />
+                  </div>
                   <div>
-                    <div className="font-semibold text-[#111827]">Estudiante / Representante</div>
+                    <div className="font-bold text-[#111827] text-sm">Estudiante / Representante</div>
                     <div className="text-xs text-[#4b5563]">Solicitud de inscripción de alumno</div>
                   </div>
                 </div>
               </label>
 
               <label
-                className={`relative cursor-pointer rounded-xl border p-4 pl-5 bg-white transition-all ${
-                  role === "profesor" ? "bg-[--highlight] border-black/20 shadow-sm" : "border-black/10 hover:bg-[--highlight]"
+                className={`relative cursor-pointer rounded-2xl border p-4 pl-5 bg-white transition-all ${
+                  role === "profesor" ? "bg-blue-50/40 border-[--primary] ring-1 ring-[--primary] shadow-sm" : "border-black/10 hover:bg-gray-50"
                 }`}
               >
                 <input
@@ -160,17 +173,16 @@ export default function Registro() {
                   className="sr-only"
                 />
                 {role === "profesor" && (
-                  <>
-                    <span className="absolute left-0 top-0 h-full w-1.5 bg-[--primary] rounded-l" aria-hidden="true" />
-                    <span className="absolute right-3 top-3 text-[#111827]">
-                      <IconCheck className="h-5 w-5" />
-                    </span>
-                  </>
+                  <span className="absolute right-3 top-3 text-[--primary]">
+                    <CheckCircle2 className="h-5 w-5" />
+                  </span>
                 )}
                 <div className="flex items-center gap-3">
-                  <IconProfesor className="h-6 w-6 text-[--primary]" />
+                  <div className="p-2.5 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-100">
+                    <Users2 className="h-6 w-6" />
+                  </div>
                   <div>
-                    <div className="font-semibold text-[#111827]">Personal Docente</div>
+                    <div className="font-bold text-[#111827] text-sm">Personal Docente</div>
                     <div className="text-xs text-[#4b5563]">Registro de profesor</div>
                   </div>
                 </div>
@@ -179,17 +191,15 @@ export default function Registro() {
           </Reveal>
 
           {status === "error" && (
-            <div className="mb-6 rounded-lg border border-red-200 bg-red-50 p-4 text-sm font-medium text-red-700 flex items-center gap-2">
-              <svg className="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-              </svg>
+            <div className="mb-6 rounded-xl border border-red-200 bg-red-50 p-4 text-xs font-medium text-red-700 flex items-center gap-2.5 shadow-sm">
+              <AlertCircle className="w-5 h-5 flex-shrink-0 text-red-600" />
               <span>{errorMessage}</span>
             </div>
           )}
 
           <form onSubmit={onSubmit} className="rounded-2xl border border-black/10 bg-white p-6 md:p-8 text-[#111827] shadow-sm">
             <div className="mb-6 flex items-center justify-between border-b border-black/10 pb-3">
-              <h2 className="text-lg font-bold text-[#111827]">
+              <h2 className="text-base font-bold text-[#111827]">
                 {role === "estudiante" ? "Datos del Estudiante y Representante" : "Datos del Profesor"}
               </h2>
               <span className="text-xs text-red-600 font-medium">* Campos requeridos</span>
@@ -213,8 +223,9 @@ export default function Registro() {
                   <button
                     type="button"
                     onClick={() => setVerModalTerminos(true)}
-                    className="font-bold text-[--primary] underline hover:opacity-80"
+                    className="font-bold text-[--primary] underline hover:opacity-80 inline-flex items-center gap-0.5"
                   >
+                    <FileText className="w-3.5 h-3.5 inline" />
                     Términos, Condiciones y Reglamento Interno
                   </button>{" "}
                   del Colegio Adventista Sierra Maestra. Declaro bajo juramento que los datos suministrados son fidedignos.
@@ -229,9 +240,10 @@ export default function Registro() {
               <button
                 type="submit"
                 disabled={status === "loading"}
-                className="fx-btn rounded-lg bg-[#FFE58A] px-8 py-3 font-bold text-[#1f2937] ring-1 ring-black/10 shadow hover:brightness-95 disabled:opacity-50"
+                className="fx-btn inline-flex items-center gap-1.5 rounded-lg bg-[#FFE58A] px-8 py-3 font-bold text-[#1f2937] ring-1 ring-black/10 shadow hover:brightness-95 disabled:opacity-50 cursor-pointer"
               >
-                {status === "loading" ? "Procesando solicitud..." : "Enviar Solicitud"}
+                <span>{status === "loading" ? "Procesando solicitud..." : "Enviar Solicitud"}</span>
+                <ArrowRight className="w-4 h-4" />
               </button>
             </div>
           </form>
@@ -248,12 +260,12 @@ export default function Registro() {
               </h3>
               <button
                 onClick={() => setVerModalTerminos(false)}
-                className="h-8 w-8 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 flex items-center justify-center font-bold"
+                className="h-8 w-8 rounded-lg bg-gray-100 text-gray-600 hover:bg-gray-200 flex items-center justify-center"
               >
-                ✕
+                <X className="w-4 h-4" />
               </button>
             </div>
-            <div className="prose prose-sm max-w-none text-xs text-gray-700 leading-relaxed whitespace-pre-wrap font-sans bg-gray-50 p-4 rounded-lg border">
+            <div className="prose prose-sm max-w-none text-xs text-gray-700 leading-relaxed whitespace-pre-wrap font-sans bg-gray-50 p-4 rounded-xl border">
               {TERMINOS_TEXT}
             </div>
             <div className="mt-5 flex justify-end gap-3 border-t pt-4">
@@ -263,7 +275,7 @@ export default function Registro() {
                   setAceptaTerminos(true);
                   setVerModalTerminos(false);
                 }}
-                className="rounded-lg bg-[--primary] px-5 py-2 text-xs font-bold text-white hover:opacity-90"
+                className="rounded-lg bg-[--primary] px-5 py-2.5 text-xs font-bold text-white hover:opacity-90 cursor-pointer"
               >
                 Aceptar Términos y Cerrar
               </button>
@@ -338,37 +350,5 @@ function ProfesorFields() {
       <Field label="Correo Institucional / Personal" name="email" type="email" required />
       <Field label="Teléfono de Contacto" name="telefono" required />
     </div>
-  );
-}
-
-function IconEstudiante(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...props}>
-      <path d="M3 8l9-5 9 5-9 5-9-5z" />
-      <path d="M21 8v6" />
-      <path d="M12 13v8" />
-      <path d="M6 18c3-2 9-2 12 0" />
-    </svg>
-  );
-}
-
-function IconProfesor(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...props}>
-      <rect x="3" y="4" width="18" height="12" rx="2" />
-      <path d="M7 20h10" />
-      <circle cx="9" cy="10" r="1.5" />
-      <path d="M7.5 14a3.5 3.5 0 0 1 3 0" />
-      <path d="M12 8h6" />
-      <path d="M12 11h6" />
-    </svg>
-  );
-}
-
-function IconCheck(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
-      <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm-1.2 13.3-3.3-3.3 1.4-1.4 1.9 1.9 4.6-4.6 1.4 1.4-6 6z" />
-    </svg>
   );
 }

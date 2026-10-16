@@ -2,6 +2,29 @@
 import { useState, useEffect, FormEvent } from "react";
 import Link from "next/link";
 import { Estudiante, Profesor, SolicitudInscripcion, Nota } from "@/lib/types";
+import {
+  Settings,
+  RefreshCw,
+  LogOut,
+  CheckCircle2,
+  AlertTriangle,
+  GraduationCap,
+  Users2,
+  ClipboardList,
+  Calendar,
+  BarChart3,
+  FileSignature,
+  Users,
+  ScrollText,
+  Lock,
+  Edit3,
+  Plus,
+  Trash2,
+  Search,
+  Check,
+  X,
+  ShieldCheck,
+} from "lucide-react";
 
 export default function AdminPanel() {
   const [activeTab, setActiveTab] = useState<"solicitudes" | "calificaciones" | "usuarios" | "terminos">("calificaciones");
@@ -215,8 +238,8 @@ export default function AdminPanel() {
       <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-black/10 pb-4">
         <div>
           <div className="flex items-center gap-3">
-            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-[--primary] text-white font-bold text-sm shadow">
-              ⚙️
+            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[--primary] text-white shadow">
+              <Settings className="w-5 h-5" />
             </span>
             <div>
               <h1 className="text-2xl md:text-3xl font-extrabold text-[#111827]" style={{ fontFamily: "var(--font-title)" }}>
@@ -232,13 +255,15 @@ export default function AdminPanel() {
           <button
             onClick={cargarDatos}
             disabled={loading}
-            className="rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 hover:bg-gray-50 transition-all flex items-center gap-1.5"
+            className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-50 transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
           >
-            <span>🔄</span> Refrescar
+            <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} />
+            <span>Refrescar</span>
           </button>
           <form action="/api/logout" method="post">
-            <button className="fx-btn rounded-lg bg-red-600 px-4 py-1.5 text-xs font-bold text-white shadow hover:bg-red-700 transition-all">
-              Cerrar Sesión
+            <button className="fx-btn inline-flex items-center gap-1.5 rounded-lg bg-red-600 px-4 py-2 text-xs font-bold text-white shadow hover:bg-red-700 transition-all cursor-pointer">
+              <LogOut className="w-3.5 h-3.5" />
+              <span>Cerrar Sesión</span>
             </button>
           </form>
         </div>
@@ -247,40 +272,56 @@ export default function AdminPanel() {
       {/* Alertas y Notificaciones */}
       {feedback && (
         <div
-          className={`mb-6 rounded-xl p-4 text-xs font-semibold flex items-center gap-2 transition-all ${
+          className={`mb-6 rounded-xl p-4 text-xs font-semibold flex items-center gap-2.5 transition-all shadow-sm ${
             feedback.type === "ok"
               ? "bg-green-50 text-green-800 border border-green-200"
               : "bg-red-50 text-red-800 border border-red-200"
           }`}
         >
-          <span>{feedback.type === "ok" ? "✅" : "⚠️"}</span>
+          {feedback.type === "ok" ? (
+            <CheckCircle2 className="w-4 h-4 text-green-600 flex-shrink-0" />
+          ) : (
+            <AlertTriangle className="w-4 h-4 text-red-600 flex-shrink-0" />
+          )}
           <span>{feedback.msg}</span>
         </div>
       )}
 
       {/* Estadísticas Rápidas */}
       <div className="mb-8 grid gap-4 sm:grid-cols-2 md:grid-cols-4">
-        <div className="rounded-xl border border-black/10 bg-white p-4 shadow-sm">
-          <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Estudiantes Activos</div>
-          <div className="text-2xl font-extrabold text-[--primary] mt-1">{estudiantes.length}</div>
+        <div className="rounded-2xl border border-black/10 bg-white p-5 shadow-sm">
+          <div className="flex items-center justify-between text-gray-400 mb-2">
+            <span className="text-xs font-semibold uppercase tracking-wider">Estudiantes Activos</span>
+            <GraduationCap className="w-4 h-4 text-gray-400" />
+          </div>
+          <div className="text-2xl font-extrabold text-[--primary]">{estudiantes.length}</div>
           <div className="text-[11px] text-gray-400 mt-1">Con expediente oficial</div>
         </div>
 
-        <div className="rounded-xl border border-black/10 bg-white p-4 shadow-sm">
-          <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Profesores</div>
-          <div className="text-2xl font-extrabold text-[--primary] mt-1">{profesores.length}</div>
+        <div className="rounded-2xl border border-black/10 bg-white p-5 shadow-sm">
+          <div className="flex items-center justify-between text-gray-400 mb-2">
+            <span className="text-xs font-semibold uppercase tracking-wider">Profesores</span>
+            <Users2 className="w-4 h-4 text-gray-400" />
+          </div>
+          <div className="text-2xl font-extrabold text-[--primary]">{profesores.length}</div>
           <div className="text-[11px] text-gray-400 mt-1">Plantilla docente</div>
         </div>
 
-        <div className="rounded-xl border border-amber-200 bg-amber-50/50 p-4 shadow-sm">
-          <div className="text-xs font-semibold text-amber-800 uppercase tracking-wider">Solicitudes Pendientes</div>
-          <div className="text-2xl font-extrabold text-amber-600 mt-1">{solicitudesPendientes.length}</div>
+        <div className="rounded-2xl border border-amber-200 bg-amber-50/50 p-5 shadow-sm">
+          <div className="flex items-center justify-between text-amber-800 mb-2">
+            <span className="text-xs font-semibold uppercase tracking-wider">Solicitudes Pendientes</span>
+            <ClipboardList className="w-4 h-4 text-amber-600" />
+          </div>
+          <div className="text-2xl font-extrabold text-amber-600">{solicitudesPendientes.length}</div>
           <div className="text-[11px] text-amber-700 mt-1">Por revisar y aprobar</div>
         </div>
 
-        <div className="rounded-xl border border-black/10 bg-white p-4 shadow-sm">
-          <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Lapsos Académicos</div>
-          <div className="text-2xl font-extrabold text-emerald-600 mt-1">3 Lapsos</div>
+        <div className="rounded-2xl border border-black/10 bg-white p-5 shadow-sm">
+          <div className="flex items-center justify-between text-gray-400 mb-2">
+            <span className="text-xs font-semibold uppercase tracking-wider">Lapsos Académicos</span>
+            <Calendar className="w-4 h-4 text-gray-400" />
+          </div>
+          <div className="text-2xl font-extrabold text-emerald-600">3 Lapsos</div>
           <div className="text-[11px] text-gray-400 mt-1">Año Escolar 2025-2026</div>
         </div>
       </div>
@@ -289,26 +330,28 @@ export default function AdminPanel() {
       <div className="mb-6 flex flex-wrap gap-2 border-b border-black/10 pb-2">
         <button
           onClick={() => setActiveTab("calificaciones")}
-          className={`rounded-lg px-4 py-2 text-xs font-bold transition-all cursor-pointer ${
+          className={`inline-flex items-center gap-1.5 rounded-lg px-4 py-2.5 text-xs font-bold transition-all cursor-pointer ${
             activeTab === "calificaciones"
               ? "bg-[--primary] text-white shadow"
               : "bg-white text-gray-600 border hover:bg-gray-50"
           }`}
         >
-          📊 Carga de Calificaciones (Exclusivo Admin)
+          <BarChart3 className="w-3.5 h-3.5" />
+          <span>Carga de Calificaciones (Exclusivo Admin)</span>
         </button>
 
         <button
           onClick={() => setActiveTab("solicitudes")}
-          className={`relative rounded-lg px-4 py-2 text-xs font-bold transition-all cursor-pointer ${
+          className={`relative inline-flex items-center gap-1.5 rounded-lg px-4 py-2.5 text-xs font-bold transition-all cursor-pointer ${
             activeTab === "solicitudes"
               ? "bg-[--primary] text-white shadow"
               : "bg-white text-gray-600 border hover:bg-gray-50"
           }`}
         >
-          📝 Solicitudes de Inscripción
+          <FileSignature className="w-3.5 h-3.5" />
+          <span>Solicitudes de Inscripción</span>
           {solicitudesPendientes.length > 0 && (
-            <span className="ml-1.5 rounded-full bg-amber-500 px-1.5 py-0.5 text-[10px] text-white font-extrabold">
+            <span className="ml-1 rounded-full bg-amber-500 px-1.5 py-0.5 text-[10px] text-white font-extrabold">
               {solicitudesPendientes.length}
             </span>
           )}
@@ -316,32 +359,34 @@ export default function AdminPanel() {
 
         <button
           onClick={() => setActiveTab("usuarios")}
-          className={`rounded-lg px-4 py-2 text-xs font-bold transition-all cursor-pointer ${
+          className={`inline-flex items-center gap-1.5 rounded-lg px-4 py-2.5 text-xs font-bold transition-all cursor-pointer ${
             activeTab === "usuarios"
               ? "bg-[--primary] text-white shadow"
               : "bg-white text-gray-600 border hover:bg-gray-50"
           }`}
         >
-          👥 Directorio y Eliminación de Cuentas
+          <Users className="w-3.5 h-3.5" />
+          <span>Directorio y Eliminación de Cuentas</span>
         </button>
 
         <button
           onClick={() => setActiveTab("terminos")}
-          className={`rounded-lg px-4 py-2 text-xs font-bold transition-all cursor-pointer ${
+          className={`inline-flex items-center gap-1.5 rounded-lg px-4 py-2.5 text-xs font-bold transition-all cursor-pointer ${
             activeTab === "terminos"
               ? "bg-[--primary] text-white shadow"
               : "bg-white text-gray-600 border hover:bg-gray-50"
           }`}
         >
-          📜 Términos y Reglamento
+          <ScrollText className="w-3.5 h-3.5" />
+          <span>Términos y Reglamento</span>
         </button>
       </div>
 
       {/* CONTENIDO 1: CARGA DE CALIFICACIONES */}
       {activeTab === "calificaciones" && (
         <div className="space-y-6">
-          <div className="rounded-xl border border-blue-100 bg-blue-50/70 p-4 text-xs text-blue-900 flex items-start gap-2">
-            <span className="text-base">🔒</span>
+          <div className="rounded-xl border border-blue-100 bg-blue-50/70 p-4 text-xs text-blue-900 flex items-start gap-2.5 shadow-sm">
+            <Lock className="w-4 h-4 text-blue-700 flex-shrink-0 mt-0.5" />
             <div>
               <strong>Control Exclusivo de Administración:</strong> Únicamente el Administrador tiene autorización para registrar, modificar o suprimir calificaciones oficiales en la base de datos escolar. Los estudiantes las consultan en tiempo real.
             </div>
@@ -350,8 +395,18 @@ export default function AdminPanel() {
           <div className="grid gap-6 lg:grid-cols-3">
             {/* Formulario de Carga */}
             <div className="rounded-2xl border border-black/10 bg-white p-6 shadow-sm lg:col-span-1">
-              <h2 className="mb-4 text-base font-bold text-gray-900 border-b pb-2">
-                {editandoNotaId ? "✏️ Modificar Calificación" : "➕ Registrar Nueva Calificación"}
+              <h2 className="mb-4 text-base font-bold text-gray-900 border-b pb-2 flex items-center gap-1.5">
+                {editandoNotaId ? (
+                  <>
+                    <Edit3 className="w-4 h-4 text-[--primary]" />
+                    <span>Modificar Calificación</span>
+                  </>
+                ) : (
+                  <>
+                    <Plus className="w-4 h-4 text-[--primary]" />
+                    <span>Registrar Nueva Calificación</span>
+                  </>
+                )}
               </h2>
 
               <form onSubmit={handleGuardarNota} className="space-y-3.5">
@@ -524,16 +579,18 @@ export default function AdminPanel() {
                             <button
                               onClick={() => handleIniciarEdicionNota(n)}
                               title="Editar calificación"
-                              className="rounded px-2 py-1 text-[11px] font-semibold bg-gray-100 hover:bg-gray-200 text-gray-700"
+                              className="inline-flex items-center gap-1 rounded-lg px-2.5 py-1 text-[11px] font-semibold bg-gray-100 hover:bg-gray-200 text-gray-700 transition-colors"
                             >
-                              Editar
+                              <Edit3 className="w-3 h-3" />
+                              <span>Editar</span>
                             </button>
                             <button
                               onClick={() => handleEliminarNota(n.id)}
                               title="Eliminar calificación"
-                              className="rounded px-2 py-1 text-[11px] font-semibold bg-red-50 hover:bg-red-100 text-red-600"
+                              className="inline-flex items-center gap-1 rounded-lg px-2.5 py-1 text-[11px] font-semibold bg-red-50 hover:bg-red-100 text-red-600 transition-colors"
                             >
-                              Eliminar
+                              <Trash2 className="w-3 h-3" />
+                              <span>Eliminar</span>
                             </button>
                           </td>
                         </tr>
@@ -552,7 +609,10 @@ export default function AdminPanel() {
         <div className="rounded-2xl border border-black/10 bg-white p-6 shadow-sm">
           <div className="mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between border-b pb-3 gap-2">
             <div>
-              <h2 className="text-base font-bold text-gray-900">Bandeja de Solicitudes de Inscripción</h2>
+              <h2 className="text-base font-bold text-gray-900 flex items-center gap-2">
+                <FileSignature className="w-4 h-4 text-[--primary]" />
+                Bandeja de Solicitudes de Inscripción
+              </h2>
               <p className="text-xs text-gray-500">
                 Alumnos que se han registrado aceptando los términos y esperan aprobación oficial.
               </p>
@@ -568,14 +628,14 @@ export default function AdminPanel() {
               <table className="w-full text-xs">
                 <thead>
                   <tr className="bg-gray-100 text-gray-700 uppercase font-bold text-[10px]">
-                    <th className="p-2.5 text-left">Fecha</th>
+                    <th className="p-2.5 text-left rounded-l">Fecha</th>
                     <th className="p-2.5 text-left">Aspirante</th>
                     <th className="p-2.5 text-left">Cédula</th>
                     <th className="p-2.5 text-left">Grado y Turno</th>
                     <th className="p-2.5 text-left">Representante</th>
                     <th className="p-2.5 text-center">Términos</th>
                     <th className="p-2.5 text-center">Estado</th>
-                    <th className="p-2.5 text-right">Acción</th>
+                    <th className="p-2.5 text-right rounded-r">Acción</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
@@ -583,15 +643,16 @@ export default function AdminPanel() {
                     <tr key={s.id} className="hover:bg-gray-50/70 transition-colors">
                       <td className="p-2.5 text-gray-500 text-[11px]">{s.fechaSolicitud}</td>
                       <td className="p-2.5 font-bold text-gray-900">{s.nombres} {s.apellidos}</td>
-                      <td className="p-2.5 font-medium">{s.cedula}</td>
+                      <td className="p-2.5 font-mono">{s.cedula}</td>
                       <td className="p-2.5 text-gray-600">{s.grado} ({s.turno})</td>
                       <td className="p-2.5 text-gray-600">
                         <div>{s.nombreRepresentante}</div>
                         <div className="text-[10px] text-gray-400">{s.telefonoRepresentante}</div>
                       </td>
                       <td className="p-2.5 text-center">
-                        <span className="inline-block rounded-full bg-green-100 px-2 py-0.5 text-[10px] font-bold text-green-800">
-                          ✓ Aceptados
+                        <span className="inline-flex items-center gap-1 rounded-full bg-green-100 px-2 py-0.5 text-[10px] font-bold text-green-800">
+                          <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                          <span>Aceptados</span>
                         </span>
                       </td>
                       <td className="p-2.5 text-center">
@@ -612,15 +673,17 @@ export default function AdminPanel() {
                           <>
                             <button
                               onClick={() => handleAprobarSolicitud(s.id)}
-                              className="rounded-lg bg-green-600 px-3 py-1 font-bold text-white text-[11px] hover:bg-green-700 shadow-sm"
+                              className="inline-flex items-center gap-1 rounded-lg bg-green-600 px-3 py-1 font-bold text-white text-[11px] hover:bg-green-700 shadow-sm transition-all"
                             >
-                              Aprobar
+                              <Check className="w-3 h-3" />
+                              <span>Aprobar</span>
                             </button>
                             <button
                               onClick={() => handleRechazarSolicitud(s.id)}
-                              className="rounded-lg bg-red-100 px-2.5 py-1 font-semibold text-red-700 text-[11px] hover:bg-red-200"
+                              className="inline-flex items-center gap-1 rounded-lg bg-red-100 px-2.5 py-1 font-semibold text-red-700 text-[11px] hover:bg-red-200 transition-all"
                             >
-                              Rechazar
+                              <X className="w-3 h-3" />
+                              <span>Rechazar</span>
                             </button>
                           </>
                         ) : (
@@ -641,7 +704,10 @@ export default function AdminPanel() {
         <div className="rounded-2xl border border-black/10 bg-white p-6 shadow-sm">
           <div className="mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between border-b pb-3 gap-3">
             <div>
-              <h2 className="text-base font-bold text-gray-900">Directorio General de Cuentas</h2>
+              <h2 className="text-base font-bold text-gray-900 flex items-center gap-2">
+                <Users className="w-4 h-4 text-[--primary]" />
+                Directorio General de Cuentas
+              </h2>
               <p className="text-xs text-gray-500">
                 Consulta y gestiona las cuentas autorizadas. El admin puede eliminar cuentas permanentemente.
               </p>
@@ -665,12 +731,15 @@ export default function AdminPanel() {
                   Profesores ({profesores.length})
                 </button>
               </div>
-              <input
-                value={filtroUsuario}
-                onChange={(e) => setFiltroUsuario(e.target.value)}
-                placeholder="Buscar por cédula o nombre..."
-                className="rounded-lg border border-black/15 px-3 py-1 text-xs w-48"
-              />
+              <div className="relative">
+                <Search className="w-3.5 h-3.5 text-gray-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
+                <input
+                  value={filtroUsuario}
+                  onChange={(e) => setFiltroUsuario(e.target.value)}
+                  placeholder="Buscar por cédula..."
+                  className="rounded-lg border border-black/15 pl-8 pr-3 py-1.5 text-xs w-44"
+                />
+              </div>
             </div>
           </div>
 
@@ -679,13 +748,13 @@ export default function AdminPanel() {
               <table className="w-full text-xs">
                 <thead>
                   <tr className="bg-gray-100 text-gray-700 uppercase font-bold text-[10px]">
-                    <th className="p-2.5 text-left">Cédula</th>
+                    <th className="p-2.5 text-left rounded-l">Cédula</th>
                     <th className="p-2.5 text-left">Estudiante</th>
                     <th className="p-2.5 text-left">Grado / Sección</th>
                     <th className="p-2.5 text-left">Turno</th>
                     <th className="p-2.5 text-center">Notas Cargadas</th>
                     <th className="p-2.5 text-center">Estado</th>
-                    <th className="p-2.5 text-right">Acción</th>
+                    <th className="p-2.5 text-right rounded-r">Acción</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
@@ -715,9 +784,10 @@ export default function AdminPanel() {
                             onClick={() =>
                               handleEliminarCuenta("estudiante", est.id, `${est.nombres} ${est.apellidos}`)
                             }
-                            className="rounded-lg bg-red-50 hover:bg-red-600 hover:text-white px-3 py-1 font-bold text-red-600 transition-all text-[11px]"
+                            className="inline-flex items-center gap-1 rounded-lg bg-red-50 hover:bg-red-600 hover:text-white px-3 py-1 font-bold text-red-600 transition-all text-[11px]"
                           >
-                            Eliminar Cuenta
+                            <Trash2 className="w-3 h-3" />
+                            <span>Eliminar Cuenta</span>
                           </button>
                         </td>
                       </tr>
@@ -730,12 +800,12 @@ export default function AdminPanel() {
               <table className="w-full text-xs">
                 <thead>
                   <tr className="bg-gray-100 text-gray-700 uppercase font-bold text-[10px]">
-                    <th className="p-2.5 text-left">Cédula</th>
+                    <th className="p-2.5 text-left rounded-l">Cédula</th>
                     <th className="p-2.5 text-left">Profesor</th>
                     <th className="p-2.5 text-left">Título / Especialidad</th>
                     <th className="p-2.5 text-left">Asignaturas</th>
                     <th className="p-2.5 text-center">Estado</th>
-                    <th className="p-2.5 text-right">Acción</th>
+                    <th className="p-2.5 text-right rounded-r">Acción</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
@@ -762,9 +832,10 @@ export default function AdminPanel() {
                             onClick={() =>
                               handleEliminarCuenta("profesor", prof.id, `${prof.nombres} ${prof.apellidos}`)
                             }
-                            className="rounded-lg bg-red-50 hover:bg-red-600 hover:text-white px-3 py-1 font-bold text-red-600 transition-all text-[11px]"
+                            className="inline-flex items-center gap-1 rounded-lg bg-red-50 hover:bg-red-600 hover:text-white px-3 py-1 font-bold text-red-600 transition-all text-[11px]"
                           >
-                            Eliminar Cuenta
+                            <Trash2 className="w-3 h-3" />
+                            <span>Eliminar Cuenta</span>
                           </button>
                         </td>
                       </tr>

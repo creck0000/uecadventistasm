@@ -7,6 +7,20 @@ import hero02 from "@/images/hero sierra/02.png";
 import hero03 from "@/images/hero sierra/03.png";
 import hero04 from "@/images/hero sierra/04.png";
 import hero05 from "@/images/hero sierra/05.png";
+import {
+  ChevronLeft,
+  ChevronRight,
+  GraduationCap,
+  Users2,
+  ShieldCheck,
+  CheckCircle2,
+  ArrowRight,
+  Calendar,
+  Award,
+  Users,
+  TrendingUp,
+  Sparkles,
+} from "lucide-react";
 
 const heroImages = [hero01, hero02, hero03, hero04, hero05];
 
@@ -55,7 +69,8 @@ export default function Home() {
         <div className="relative z-10 mx-auto w-full max-w-7xl px-4 py-16 md:py-24">
           <Reveal>
             <div className="max-w-2xl">
-              <span className="inline-block rounded-full bg-[#FFE58A]/20 px-3.5 py-1 text-xs font-semibold text-[#FFE58A] mb-3 border border-[#FFE58A]/30">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#FFE58A]/20 px-3.5 py-1 text-xs font-semibold text-[#FFE58A] mb-3 border border-[#FFE58A]/30">
+                <Sparkles className="w-3.5 h-3.5" />
                 Educación Integral Cristiana
               </span>
               <h1 className="mb-4 text-4xl md:text-5xl font-extrabold leading-tight text-white" style={{ fontFamily: "var(--font-title)" }}>
@@ -67,19 +82,19 @@ export default function Home() {
               <div className="flex flex-wrap gap-3">
                 <a
                   href="/admisiones"
-                  className="fx-btn rounded bg-[#FFE58A] px-6 py-3 font-bold text-[#1f2937] ring-1 ring-black/10 shadow hover:brightness-95 transition-all"
+                  className="fx-btn rounded-lg bg-[#FFE58A] px-6 py-3 font-bold text-[#1f2937] ring-1 ring-black/10 shadow hover:brightness-95 transition-all"
                 >
                   Admisiones
                 </a>
                 <a
                   href="/registro"
-                  className="fx-btn rounded bg-white/10 px-6 py-3 font-semibold text-white backdrop-blur hover:bg-white/20 transition-all border border-white/20"
+                  className="fx-btn rounded-lg bg-white/10 px-6 py-3 font-semibold text-white backdrop-blur hover:bg-white/20 transition-all border border-white/20"
                 >
                   Registrarme
                 </a>
                 <a
                   href="/login"
-                  className="fx-btn rounded bg-white/5 px-6 py-3 text-sm font-semibold text-white backdrop-blur hover:bg-white/15 transition-all border border-white/10"
+                  className="fx-btn rounded-lg bg-white/5 px-6 py-3 text-sm font-semibold text-white backdrop-blur hover:bg-white/15 transition-all border border-white/10"
                 >
                   Ya tengo cuenta
                 </a>
@@ -92,20 +107,16 @@ export default function Home() {
         <button
           onClick={prevSlide}
           aria-label="Foto anterior"
-          className="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-full bg-black/35 text-white backdrop-blur hover:bg-black/60 transition-all focus:outline-none cursor-pointer"
+          className="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-md hover:bg-black/60 transition-all focus:outline-none cursor-pointer border border-white/10"
         >
-          <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
-          </svg>
+          <ChevronLeft className="w-6 h-6" />
         </button>
         <button
           onClick={nextSlide}
           aria-label="Siguiente foto"
-          className="absolute right-3 md:right-6 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-full bg-black/35 text-white backdrop-blur hover:bg-black/60 transition-all focus:outline-none cursor-pointer"
+          className="absolute right-3 md:right-6 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-md hover:bg-black/60 transition-all focus:outline-none cursor-pointer border border-white/10"
         >
-          <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
-          </svg>
+          <ChevronRight className="w-6 h-6" />
         </button>
 
         {/* Carousel Indicators / Dots */}
@@ -134,8 +145,8 @@ export default function Home() {
                 Oferta Académica
               </h2>
             </div>
-            <a href="/oferta-academica" className="text-xs font-bold text-[--primary] hover:underline">
-              Ver plan de estudios completo →
+            <a href="/oferta-academica" className="inline-flex items-center gap-1 text-xs font-bold text-[--primary] hover:underline">
+              Ver plan de estudios completo <ArrowRight className="w-3.5 h-3.5" />
             </a>
           </div>
         </Reveal>
@@ -170,10 +181,11 @@ export default function Home() {
                   </div>
                   <h3 className="text-xl font-bold text-[#111827] mb-2">{c.t}</h3>
                   <p className="text-sm text-[#4b5563] leading-relaxed mb-4">{c.d}</p>
-                  <ul className="space-y-1.5 border-t border-gray-100 pt-3 text-xs text-gray-600">
+                  <ul className="space-y-2 border-t border-gray-100 pt-3 text-xs text-gray-600">
                     {c.features.map((f, idx) => (
                       <li key={idx} className="flex items-center gap-2">
-                        <span className="text-emerald-600 font-bold">✓</span> {f}
+                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
+                        <span>{f}</span>
                       </li>
                     ))}
                   </ul>
@@ -181,9 +193,9 @@ export default function Home() {
                 <div className="mt-6 pt-3">
                   <a
                     href="/admisiones"
-                    className="inline-block text-xs font-bold text-[--primary] group-hover:translate-x-1 transition-transform"
+                    className="inline-flex items-center gap-1 text-xs font-bold text-[--primary] group-hover:translate-x-1 transition-transform"
                   >
-                    Solicitar admisión →
+                    Solicitar admisión <ArrowRight className="w-3.5 h-3.5" />
                   </a>
                 </div>
               </div>
@@ -205,42 +217,51 @@ export default function Home() {
           {[
             {
               t: "Estudiantes",
-              icon: "🎓",
+              icon: GraduationCap,
+              iconBg: "bg-blue-50 text-[--primary] border-blue-100",
               d: "Consulta tu boletín oficial de calificaciones por lapso, registro de asistencia y promedio acumulado.",
               link: "/login",
               btn: "Consultar Notas",
             },
             {
               t: "Profesores",
-              icon: "👨‍🏫",
+              icon: Users2,
+              iconBg: "bg-emerald-50 text-emerald-700 border-emerald-100",
               d: "Visualiza los listados de alumnos de tus secciones asignadas, acompañamiento pedagógico y horarios.",
               link: "/login",
               btn: "Portal Docente",
             },
             {
               t: "Administración",
-              icon: "🛡️",
+              icon: ShieldCheck,
+              iconBg: "bg-amber-50 text-amber-700 border-amber-100",
               d: "Control total de calificaciones oficiales, aprobación de nuevas inscripciones y gestión de usuarios.",
               link: "/login",
               btn: "Panel de Control",
             },
-          ].map((c, i) => (
-            <Reveal key={c.t} delay={120 * i}>
-              <div className="rounded-2xl border border-black/10 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg flex flex-col justify-between">
-                <div>
-                  <div className="text-3xl mb-3">{c.icon}</div>
-                  <h3 className="text-lg font-bold text-[#111827] mb-2">{c.t}</h3>
-                  <p className="text-sm text-[#4b5563] leading-relaxed mb-6">{c.d}</p>
+          ].map((c, i) => {
+            const IconComponent = c.icon;
+            return (
+              <Reveal key={c.t} delay={120 * i}>
+                <div className="rounded-2xl border border-black/10 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg flex flex-col justify-between">
+                  <div>
+                    <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl mb-4 border ${c.iconBg}`}>
+                      <IconComponent className="w-6 h-6" />
+                    </div>
+                    <h3 className="text-lg font-bold text-[#111827] mb-2">{c.t}</h3>
+                    <p className="text-sm text-[#4b5563] leading-relaxed mb-6">{c.d}</p>
+                  </div>
+                  <a
+                    href={c.link}
+                    className="fx-btn inline-flex items-center justify-center gap-1.5 text-center rounded-lg bg-gray-50 border border-gray-200 py-2.5 text-xs font-bold text-[--primary] hover:bg-[--primary] hover:text-white transition-all shadow-sm"
+                  >
+                    <span>{c.btn}</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </a>
                 </div>
-                <a
-                  href={c.link}
-                  className="fx-btn block text-center rounded-lg bg-gray-50 border border-gray-200 py-2.5 text-xs font-bold text-[--primary] hover:bg-[--primary] hover:text-white transition-all shadow-sm"
-                >
-                  {c.btn} →
-                </a>
-              </div>
-            </Reveal>
-          ))}
+              </Reveal>
+            );
+          })}
         </div>
       </section>
 
@@ -291,13 +312,16 @@ export default function Home() {
                       alt={n.titulo}
                       className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
-                    <span className="absolute top-3 left-3 rounded-full bg-[--primary]/90 backdrop-blur px-3 py-1 text-[11px] font-bold text-white shadow-sm">
+                    <span className="absolute top-3 left-3 rounded-full bg-[--primary]/90 backdrop-blur-sm px-3 py-1 text-[11px] font-bold text-white shadow-sm">
                       {n.tag}
                     </span>
                   </div>
                   <div className="p-6 flex flex-col justify-between flex-1">
                     <div>
-                      <div className="mb-2 text-xs font-semibold text-gray-400">{n.fecha}</div>
+                      <div className="mb-2 inline-flex items-center gap-1.5 text-xs font-semibold text-gray-400">
+                        <Calendar className="w-3.5 h-3.5" />
+                        <span>{n.fecha}</span>
+                      </div>
                       <h3 className="mb-2 text-base font-bold text-[#111827] group-hover:text-[--primary] transition-colors leading-snug">
                         {n.titulo}
                       </h3>
@@ -305,7 +329,7 @@ export default function Home() {
                     </div>
                     <div className="mt-4 pt-3 border-t border-gray-100">
                       <span className="text-xs font-bold text-[--primary] inline-flex items-center gap-1">
-                        Leer más <span>→</span>
+                        Leer más <ArrowRight className="w-3.5 h-3.5" />
                       </span>
                     </div>
                   </div>
@@ -325,17 +349,23 @@ export default function Home() {
           </Reveal>
           <div className="grid gap-6 sm:grid-cols-3">
             {[
-              { n: "95%", d: "Promoción anual" },
-              { n: "30+", d: "Docentes titulados" },
-              { n: "500+", d: "Estudiantes activos" },
-            ].map((s, i) => (
-              <Reveal key={s.n} delay={90 * i}>
-                <div className="rounded-xl border border-black/10 bg-white p-6 text-center">
-                  <div className="text-3xl font-extrabold text-[#111827]">{s.n}</div>
-                  <div className="text-sm text-[#334155]">{s.d}</div>
-                </div>
-              </Reveal>
-            ))}
+              { n: "95%", d: "Promoción académica anual", icon: TrendingUp },
+              { n: "30+", d: "Docentes titulados con posgrado", icon: Award },
+              { n: "500+", d: "Estudiantes activos matriculados", icon: Users },
+            ].map((s, i) => {
+              const IconComp = s.icon;
+              return (
+                <Reveal key={s.n} delay={90 * i}>
+                  <div className="rounded-2xl border border-black/10 bg-white p-6 text-center hover:shadow-md transition-all">
+                    <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-blue-50 text-[--primary] mb-3">
+                      <IconComp className="w-5 h-5" />
+                    </div>
+                    <div className="text-3xl font-extrabold text-[#111827]">{s.n}</div>
+                    <div className="text-xs text-[#334155] mt-1">{s.d}</div>
+                  </div>
+                </Reveal>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -358,9 +388,10 @@ export default function Home() {
               <div className="flex flex-wrap gap-3">
                 <a
                   href="/admisiones"
-                  className="fx-btn rounded-lg bg-[#FFE58A] px-6 py-3.5 font-bold text-[#1f2937] ring-1 ring-black/10 shadow hover:brightness-95 transition-all text-center"
+                  className="fx-btn inline-flex items-center gap-1.5 rounded-lg bg-[#FFE58A] px-6 py-3.5 font-bold text-[#1f2937] ring-1 ring-black/10 shadow hover:brightness-95 transition-all text-center"
                 >
-                  Comenzar Admisión
+                  <span>Comenzar Admisión</span>
+                  <ArrowRight className="w-4 h-4" />
                 </a>
                 <a
                   href="/contacto"

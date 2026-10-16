@@ -1,5 +1,15 @@
 import Reveal from "@/components/ui/Reveal";
 import Link from "next/link";
+import {
+  FolderOpen,
+  Clock,
+  MapPin,
+  Phone,
+  Mail,
+  CheckCircle2,
+  ArrowRight,
+  Sparkles,
+} from "lucide-react";
 
 export default function Admisiones() {
   return (
@@ -16,7 +26,8 @@ export default function Admisiones() {
         <div className="absolute inset-0 bg-gradient-to-r from-[#112430]/95 via-[#173344]/90 to-[#173344]/70" />
         <div className="relative z-10 mx-auto max-w-7xl px-4">
           <Reveal>
-            <span className="inline-block rounded-full bg-[#FFE58A]/20 px-3.5 py-1 text-xs font-bold text-[#FFE58A] mb-3 border border-[#FFE58A]/30">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#FFE58A]/20 px-3.5 py-1 text-xs font-bold text-[#FFE58A] mb-3 border border-[#FFE58A]/30">
+              <Sparkles className="w-3.5 h-3.5" />
               Proceso de Ingreso 2025-2026
             </span>
             <h1 className="text-3xl md:text-5xl font-extrabold leading-tight text-white" style={{ fontFamily: "var(--font-title)" }}>
@@ -85,36 +96,41 @@ export default function Admisiones() {
         <div className="grid gap-8 lg:grid-cols-2 items-start mb-16">
           <Reveal>
             <div className="rounded-2xl border border-black/10 bg-white p-6 md:p-8 shadow-sm">
-              <h3 className="text-xl font-bold text-[#111827] mb-4 flex items-center gap-2">
-                <span>📁</span> Documentos Requeridos
-              </h3>
-              <ul className="space-y-3 text-xs text-gray-700">
+              <div className="flex items-center gap-2.5 mb-4 border-b pb-3">
+                <div className="p-2 rounded-lg bg-blue-50 text-[--primary] border border-blue-100">
+                  <FolderOpen className="w-5 h-5" />
+                </div>
+                <h3 className="text-lg font-bold text-[#111827]">
+                  Documentos Requeridos
+                </h3>
+              </div>
+              <ul className="space-y-3.5 text-xs text-gray-700">
                 <li className="flex items-start gap-2.5">
-                  <span className="text-emerald-600 font-bold mt-0.5">✓</span>
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
                   <div>
                     <strong>Cédula de Identidad o Cédula Escolar:</strong> Fotocopia legible del alumno y de ambos padres o representante legal.
                   </div>
                 </li>
                 <li className="flex items-start gap-2.5">
-                  <span className="text-emerald-600 font-bold mt-0.5">✓</span>
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
                   <div>
                     <strong>Partida de Nacimiento:</strong> Copia certificada del acta de nacimiento del estudiante.
                   </div>
                 </li>
                 <li className="flex items-start gap-2.5">
-                  <span className="text-emerald-600 font-bold mt-0.5">✓</span>
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
                   <div>
                     <strong>Boletín de Calificaciones o Notas Certificadas:</strong> Del último año o lapso escolar cursado.
                   </div>
                 </li>
                 <li className="flex items-start gap-2.5">
-                  <span className="text-emerald-600 font-bold mt-0.5">✓</span>
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
                   <div>
                     <strong>Constancia de Buena Conducta:</strong> Emitida por la institución educativa de procedencia.
                   </div>
                 </li>
                 <li className="flex items-start gap-2.5">
-                  <span className="text-emerald-600 font-bold mt-0.5">✓</span>
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
                   <div>
                     <strong>Fotografías tipo Carnet:</strong> 4 fotos recientes del estudiante y 2 del representante en fondo blanco.
                   </div>
@@ -125,24 +141,33 @@ export default function Admisiones() {
 
           <Reveal delay={120}>
             <div className="rounded-2xl border border-black/10 bg-white p-6 md:p-8 shadow-sm">
-              <h3 className="text-xl font-bold text-[#111827] mb-4 flex items-center gap-2">
-                <span>⏰</span> Horarios de Atención Presencial
-              </h3>
+              <div className="flex items-center gap-2.5 mb-4 border-b pb-3">
+                <div className="p-2 rounded-lg bg-blue-50 text-[--primary] border border-blue-100">
+                  <Clock className="w-5 h-5" />
+                </div>
+                <h3 className="text-lg font-bold text-[#111827]">
+                  Horarios de Atención Presencial
+                </h3>
+              </div>
               <p className="text-xs text-[#4b5563] leading-relaxed mb-4">
                 Si deseas consignar documentos físicos o recibir asesoría personalizada, puedes acudir a nuestra sede institucional en Sierra Maestra:
               </p>
               <div className="space-y-3 text-xs text-gray-700 bg-gray-50 p-4 rounded-xl border">
-                <div>
-                  <strong>📍 Dirección:</strong> N° 5-40, Calle 18, Sierra Maestra, Maracaibo, Zulia.
+                <div className="flex items-start gap-2.5">
+                  <MapPin className="w-4 h-4 text-[--primary] flex-shrink-0 mt-0.5" />
+                  <div><strong>Dirección:</strong> N° 5-40, Calle 18, Sierra Maestra, Maracaibo, Zulia.</div>
                 </div>
-                <div>
-                  <strong>🕒 Atención de Secretaría:</strong> Lunes a Jueves de 7:30 AM a 1:00 PM / Viernes de 7:30 AM a 12:00 PM.
+                <div className="flex items-start gap-2.5">
+                  <Clock className="w-4 h-4 text-[--primary] flex-shrink-0 mt-0.5" />
+                  <div><strong>Atención de Secretaría:</strong> Lunes a Jueves de 7:30 AM a 1:00 PM / Viernes de 7:30 AM a 12:00 PM.</div>
                 </div>
-                <div>
-                  <strong>📞 Teléfono Directo:</strong> +58 261-7356593
+                <div className="flex items-start gap-2.5">
+                  <Phone className="w-4 h-4 text-[--primary] flex-shrink-0 mt-0.5" />
+                  <div><strong>Teléfono Directo:</strong> +58 261-7356593</div>
                 </div>
-                <div>
-                  <strong>✉️ Correo de Admisiones:</strong> admisiones@casm.edu
+                <div className="flex items-start gap-2.5">
+                  <Mail className="w-4 h-4 text-[--primary] flex-shrink-0 mt-0.5" />
+                  <div><strong>Correo de Admisiones:</strong> admisiones@casm.edu</div>
                 </div>
               </div>
             </div>
@@ -157,9 +182,10 @@ export default function Admisiones() {
           </p>
           <Link
             href="/registro"
-            className="fx-btn inline-block rounded-lg bg-[#FFE58A] px-8 py-3.5 text-xs font-bold text-[#1f2937] ring-1 ring-black/10 shadow"
+            className="fx-btn inline-flex items-center gap-1.5 rounded-lg bg-[#FFE58A] px-8 py-3.5 text-xs font-bold text-[#1f2937] ring-1 ring-black/10 shadow hover:brightness-95 transition-all"
           >
-            Llenar Solicitud de Admisión →
+            <span>Llenar Solicitud de Admisión</span>
+            <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
       </section>

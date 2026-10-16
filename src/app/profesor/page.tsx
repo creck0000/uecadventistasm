@@ -1,6 +1,15 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { db } from "@/lib/dataStore";
+import {
+  User,
+  BookOpen,
+  GraduationCap,
+  Mail,
+  Users2,
+  Info,
+  LogOut,
+} from "lucide-react";
 
 export default async function ProfesorPanel() {
   const c = await cookies();
@@ -42,28 +51,46 @@ export default async function ProfesorPanel() {
         </div>
 
         <form action="/api/logout" method="post">
-          <button className="fx-btn rounded-lg bg-gray-100 hover:bg-red-50 hover:text-red-600 px-4 py-2 text-xs font-bold text-gray-700 transition-all border border-gray-200">
-            Cerrar Sesión
+          <button className="fx-btn inline-flex items-center gap-1.5 rounded-lg bg-gray-100 hover:bg-red-50 hover:text-red-600 px-4 py-2 text-xs font-bold text-gray-700 transition-all border border-gray-200 cursor-pointer">
+            <LogOut className="w-3.5 h-3.5" />
+            <span>Cerrar Sesión</span>
           </button>
         </form>
       </div>
 
       <div className="grid gap-6 md:grid-cols-3 mb-8">
         {/* Perfil del Profesor */}
-        <div className="rounded-2xl border border-black/10 bg-white p-5 shadow-sm md:col-span-1">
-          <div className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Perfil Académico</div>
-          <h2 className="text-lg font-bold text-gray-900">{prof.nombres} {prof.apellidos}</h2>
-          <div className="text-xs font-mono font-bold text-[--primary] mb-3">{prof.cedula}</div>
-          <div className="text-xs text-gray-600 space-y-1.5 pt-2 border-t">
-            <div><strong>Especialidad:</strong> {prof.titulo}</div>
-            <div><strong>Asignaturas:</strong> {prof.asignaturas.join(", ")}</div>
-            <div><strong>Correo:</strong> {prof.email || "No registrado"}</div>
+        <div className="rounded-2xl border border-black/10 bg-white p-6 shadow-sm md:col-span-1 flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between text-gray-400 mb-3">
+              <span className="text-xs font-bold uppercase tracking-wider">Perfil Académico</span>
+              <User className="w-4 h-4 text-gray-400" />
+            </div>
+            <h2 className="text-lg font-bold text-gray-900">{prof.nombres} {prof.apellidos}</h2>
+            <div className="text-xs font-mono font-bold text-[--primary] mb-4">{prof.cedula}</div>
+            <div className="text-xs text-gray-600 space-y-2 pt-3 border-t">
+              <div className="flex items-start gap-2">
+                <GraduationCap className="w-4 h-4 text-[--primary] flex-shrink-0 mt-0.5" />
+                <span><strong>Especialidad:</strong> {prof.titulo}</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <BookOpen className="w-4 h-4 text-[--primary] flex-shrink-0 mt-0.5" />
+                <span><strong>Asignaturas:</strong> {prof.asignaturas.join(", ")}</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <Mail className="w-4 h-4 text-[--primary] flex-shrink-0 mt-0.5" />
+                <span><strong>Correo:</strong> {prof.email || "No registrado"}</span>
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Cursos y Secciones */}
-        <div className="rounded-2xl border border-black/10 bg-white p-5 shadow-sm md:col-span-2">
-          <div className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Grados y Secciones a Cargo</div>
+        <div className="rounded-2xl border border-black/10 bg-white p-6 shadow-sm md:col-span-2">
+          <div className="flex items-center justify-between text-gray-400 mb-2">
+            <span className="text-xs font-bold uppercase tracking-wider">Grados y Secciones a Cargo</span>
+            <Users2 className="w-4 h-4 text-gray-400" />
+          </div>
           <div className="grid gap-3 sm:grid-cols-2 mt-3">
             {prof.gradosSecciones.map((gs, idx) => (
               <div key={idx} className="rounded-xl border border-blue-100 bg-blue-50/50 p-3.5 flex items-center justify-between">
@@ -78,8 +105,8 @@ export default async function ProfesorPanel() {
             ))}
           </div>
 
-          <div className="mt-4 rounded-xl bg-amber-50 border border-amber-200 p-3 text-xs text-amber-900 flex items-start gap-2">
-            <span>ℹ️</span>
+          <div className="mt-4 rounded-xl bg-amber-50 border border-amber-200 p-3 text-xs text-amber-900 flex items-start gap-2.5">
+            <Info className="w-4 h-4 text-amber-700 flex-shrink-0 mt-0.5" />
             <div>
               <strong>Políticas de Calificaciones CASM:</strong> La carga, edición y publicación final de actas y calificaciones oficiales de los estudiantes es gestionada de forma centralizada por el <strong>Panel de Administración General</strong>.
             </div>
