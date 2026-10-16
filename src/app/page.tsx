@@ -125,22 +125,67 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-12">
+      <section className="mx-auto max-w-7xl px-4 py-16">
         <Reveal>
-          <h2 className="mb-6 text-2xl font-bold text-[--primary]" style={{ fontFamily: "var(--font-title)" }}>
-            Oferta Académica
-          </h2>
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-8 gap-2">
+            <div>
+              <span className="text-xs font-bold uppercase tracking-wider text-[--primary]">Niveles Formativos</span>
+              <h2 className="text-3xl font-extrabold text-[#111827]" style={{ fontFamily: "var(--font-title)" }}>
+                Oferta Académica
+              </h2>
+            </div>
+            <a href="/oferta-academica" className="text-xs font-bold text-[--primary] hover:underline">
+              Ver plan de estudios completo →
+            </a>
+          </div>
         </Reveal>
         <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
           {[
-            { t: "Inicial", d: "Desarrollo integral y aprendizaje lúdico." },
-            { t: "Primaria", d: "Formación académica con valores." },
-            { t: "Media General", d: "Ciencias, humanidades y tecnología." },
+            {
+              t: "Educación Inicial",
+              badge: "3 a 5 Años",
+              d: "Desarrollo integral, estimulación temprana, aprendizaje lúdico y principios cristianos que cimentan el amor por el conocimiento.",
+              features: ["Aulas climatizadas", "Formación en valores", "Iniciación al inglés"],
+            },
+            {
+              t: "Educación Primaria",
+              badge: "1° a 6° Grado",
+              d: "Fortalecimiento del pensamiento lógico-matemático, lectoescritura avanzada, ciencias naturales y hábitos de disciplina personal.",
+              features: ["Docentes titulados", "Clubes de lectura", "Educación musical"],
+            },
+            {
+              t: "Media General",
+              badge: "1° a 5° Año",
+              d: "Sólida formación en ciencias puras, humanidades y tecnología. Preparación rigurosa para el éxito en los estudios universitarios.",
+              features: ["Laboratorios de ciencias", "Orientación vocacional", "Proyectos de investigación"],
+            },
           ].map((c, i) => (
             <Reveal key={c.t} delay={100 * i}>
-              <div className="rounded-xl border border-black/10 bg-white p-5 transition-all hover:-translate-y-1 hover:shadow-md">
-                <div className="text-lg font-semibold text-[#111827]">{c.t}</div>
-                <div className="text-sm text-[#334155]">{c.d}</div>
+              <div className="group rounded-2xl border border-black/10 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg flex flex-col justify-between h-full">
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="rounded-full bg-blue-50 px-2.5 py-1 text-[11px] font-bold text-[--primary] border border-blue-100">
+                      {c.badge}
+                    </span>
+                  </div>
+                  <h3 className="text-xl font-bold text-[#111827] mb-2">{c.t}</h3>
+                  <p className="text-sm text-[#4b5563] leading-relaxed mb-4">{c.d}</p>
+                  <ul className="space-y-1.5 border-t border-gray-100 pt-3 text-xs text-gray-600">
+                    {c.features.map((f, idx) => (
+                      <li key={idx} className="flex items-center gap-2">
+                        <span className="text-emerald-600 font-bold">✓</span> {f}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="mt-6 pt-3">
+                  <a
+                    href="/admisiones"
+                    className="inline-block text-xs font-bold text-[--primary] group-hover:translate-x-1 transition-transform"
+                  >
+                    Solicitar admisión →
+                  </a>
+                </div>
               </div>
             </Reveal>
           ))}
@@ -149,42 +194,121 @@ export default function Home() {
 
       <section className="mx-auto max-w-7xl px-4 pb-16">
         <Reveal>
-          <h2 className="mb-6 text-2xl font-bold text-[--primary]" style={{ fontFamily: "var(--font-title)" }}>
-            Comunidad
-          </h2>
+          <div className="mb-8">
+            <span className="text-xs font-bold uppercase tracking-wider text-[--primary]">Plataforma Digital</span>
+            <h2 className="text-3xl font-extrabold text-[#111827]" style={{ fontFamily: "var(--font-title)" }}>
+              Comunidad CASM
+            </h2>
+          </div>
         </Reveal>
         <div className="grid gap-6 md:grid-cols-3">
           {[
-            { t: "Estudiantes", d: "Panel con notas, promedio y asistencia." },
-            { t: "Profesores", d: "Carga de notas y reportes de curso." },
-            { t: "Administración", d: "Gestión de periodos y usuarios." },
+            {
+              t: "Estudiantes",
+              icon: "🎓",
+              d: "Consulta tu boletín oficial de calificaciones por lapso, registro de asistencia y promedio acumulado.",
+              link: "/login",
+              btn: "Consultar Notas",
+            },
+            {
+              t: "Profesores",
+              icon: "👨‍🏫",
+              d: "Visualiza los listados de alumnos de tus secciones asignadas, acompañamiento pedagógico y horarios.",
+              link: "/login",
+              btn: "Portal Docente",
+            },
+            {
+              t: "Administración",
+              icon: "🛡️",
+              d: "Control total de calificaciones oficiales, aprobación de nuevas inscripciones y gestión de usuarios.",
+              link: "/login",
+              btn: "Panel de Control",
+            },
           ].map((c, i) => (
             <Reveal key={c.t} delay={120 * i}>
-              <div className="rounded-xl border border-black/10 bg-white p-5 transition-all hover:-translate-y-1 hover:shadow-md">
-                <div className="text-lg font-semibold text-[#111827]">{c.t}</div>
-                <div className="text-sm text-[#334155]">{c.d}</div>
+              <div className="rounded-2xl border border-black/10 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg flex flex-col justify-between">
+                <div>
+                  <div className="text-3xl mb-3">{c.icon}</div>
+                  <h3 className="text-lg font-bold text-[#111827] mb-2">{c.t}</h3>
+                  <p className="text-sm text-[#4b5563] leading-relaxed mb-6">{c.d}</p>
+                </div>
+                <a
+                  href={c.link}
+                  className="fx-btn block text-center rounded-lg bg-gray-50 border border-gray-200 py-2.5 text-xs font-bold text-[--primary] hover:bg-[--primary] hover:text-white transition-all shadow-sm"
+                >
+                  {c.btn} →
+                </a>
               </div>
             </Reveal>
           ))}
         </div>
       </section>
 
-      <section className="bg-[--secondary]/20">
-        <div className="mx-auto max-w-7xl px-4 py-12">
+      <section className="bg-[--secondary]/20 py-16">
+        <div className="mx-auto max-w-7xl px-4">
           <Reveal>
-            <h2 className="mb-6 text-2xl font-bold text-[--primary]" style={{ fontFamily: "var(--font-title)" }}>
-              Noticias y Eventos
-            </h2>
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-8 gap-2">
+              <div>
+                <span className="text-xs font-bold uppercase tracking-wider text-[--primary]">Actualidad y Vida Escolar</span>
+                <h2 className="text-3xl font-extrabold text-[#111827]" style={{ fontFamily: "var(--font-title)" }}>
+                  Noticias y Eventos
+                </h2>
+              </div>
+              <p className="text-xs text-gray-500 max-w-xs">
+                Actividades académicas, científicas y espirituales que enriquecen a nuestra comunidad educativa.
+              </p>
+            </div>
           </Reveal>
           <div className="grid gap-6 md:grid-cols-3">
-            {[1, 2, 3].map((i) => (
-              <Reveal key={i} delay={100 * i}>
-                <article className="rounded-xl border border-black/10 bg-white p-5 transition-all hover:-translate-y-1 hover:shadow-md">
-                  <div className="mb-2 text-xs text-[#475569]">Mar {10 + i}, 2026</div>
-                  <h3 className="mb-1 text-base font-semibold text-[#111827]">Evento institucional {i}</h3>
-                  <p className="text-sm text-[#334155]">
-                    Resumen del evento y objetivos académicos y comunitarios.
-                  </p>
+            {[
+              {
+                img: "/campus/ciencia.jpg",
+                tag: "Ciencia & Innovación",
+                fecha: "12 Mar, 2026",
+                titulo: "Feria Científica y Tecnológica CASM 2026",
+                desc: "Estudiantes de Media General presentaron investigaciones científicas, experimentos de laboratorio y prototipos sostenibles con alto nivel académico.",
+              },
+              {
+                img: "/campus/biblioteca.jpg",
+                tag: "Vida Académica",
+                fecha: "18 Mar, 2026",
+                titulo: "Círculo Literario y Horas de Estudio Asistido",
+                desc: "Nuestra biblioteca institucional abre nuevos espacios de lectura comprensiva, tutorías personalizadas y preparación para pruebas de ingreso.",
+              },
+              {
+                img: "/campus/vida-estudiantil.jpg",
+                tag: "Valores Cristianos",
+                fecha: "25 Mar, 2026",
+                titulo: "Semana de Énfasis Espiritual y Convivencia",
+                desc: "Jornada devocional dedicada a fortalecer el carácter, la empatía y la fe mediante reflexiones bíblicas y actividades comunitarias en Maracaibo.",
+              },
+            ].map((n, i) => (
+              <Reveal key={n.titulo} delay={100 * i}>
+                <article className="group overflow-hidden rounded-2xl border border-black/10 bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl flex flex-col h-full">
+                  <div className="relative h-48 w-full overflow-hidden bg-gray-100">
+                    <img
+                      src={n.img}
+                      alt={n.titulo}
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <span className="absolute top-3 left-3 rounded-full bg-[--primary]/90 backdrop-blur px-3 py-1 text-[11px] font-bold text-white shadow-sm">
+                      {n.tag}
+                    </span>
+                  </div>
+                  <div className="p-6 flex flex-col justify-between flex-1">
+                    <div>
+                      <div className="mb-2 text-xs font-semibold text-gray-400">{n.fecha}</div>
+                      <h3 className="mb-2 text-base font-bold text-[#111827] group-hover:text-[--primary] transition-colors leading-snug">
+                        {n.titulo}
+                      </h3>
+                      <p className="text-xs text-[#4b5563] leading-relaxed">{n.desc}</p>
+                    </div>
+                    <div className="mt-4 pt-3 border-t border-gray-100">
+                      <span className="text-xs font-bold text-[--primary] inline-flex items-center gap-1">
+                        Leer más <span>→</span>
+                      </span>
+                    </div>
+                  </div>
                 </article>
               </Reveal>
             ))}
